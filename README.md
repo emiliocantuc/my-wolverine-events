@@ -2,6 +2,12 @@
 
 ## Ideas
 
+### Overall design
+The website will only have 3 paths:
+- `/`: homepage that describes the project, etc and displays most popular events of the week
+- `/recs?user_id=`: shows recommended events for user
+- `/settings?user_id=`: user inputs their preferences
+
 ### Home view
 - Site description
 - Popular events (by adds to gCalendar)
