@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tagify/dist/tagify.css">
+    <title>User Settings</title>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <form>
+            <h2 class="mb-4">User Settings</h2>
+
+            <!-- Major Input -->
+            <div class="form-group">
+                <label for="major">Major:</label>
+                <input type="text" class="form-control" id="major" placeholder="Enter your major">
+            </div>
+
+            <!-- Types of Events Checkboxes -->
+            <div class="form-group">
+                <label>Types of Events:</label><br>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="conference" value="conference">
+                    <label class="custom-control-label" for="conference">Conference</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="workshop" value="workshop">
+                    <label class="custom-control-label" for="workshop">Workshop</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="seminar" value="seminar">
+                    <label class="custom-control-label" for="seminar">Seminar</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="networking" value="networking">
+                    <label class="custom-control-label" for="networking">Networking</label>
+                </div>
+                <!-- Add more checkboxes as needed -->
+            </div>
+
+            <!-- Keywords Input (using Tagify) -->
+            <div class="form-group">
+                <label for="keywords">Keywords:</label>
+                <input type="text" class="form-control" id="keywords" name="keywords" placeholder="Enter keywords (comma-separated)" pattern=".*\S.*" title="Please enter at least one keyword">
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="form-group">
+                <label>Event Categories:</label><br>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="category1" value="category1">
+                    <label class="custom-control-label" for="category1">Category 1</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="category2" value="category2">
+                    <label class="custom-control-label" for="category2">Category 2</label>
+                </div>
+                <!-- Add more checkboxes as needed -->
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tagify"></script>
+
+    <script>
+        // Initialize Tagify for the keywords input
+        document.addEventListener('DOMContentLoaded', function () {
+            var input = document.getElementById('keywords');
+            new Tagify(input);
+        });
+    </script>
+
+</body>
+
+</html>

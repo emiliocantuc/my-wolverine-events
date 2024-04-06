@@ -12,4 +12,8 @@ def get_events(url):
         return r.json()
     except:
         raise Exception('Could not parse events from the url. Make sure its the JSON version of the events page.')
-    
+
+
+if __name__ == '__main__':
+    EVENTS_URL = 'https://events.umich.edu/week/json?v=2'
+    print(get_events(EVENTS_URL)) 
