@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Custom CSS for larger checkboxes */
+        .form-check-input {
+          width: 1.25em;
+          height: 1.25em;
+          vertical-align: -.125em;
+        }
+    
+        /* Adjust label position for larger checkboxes */
+        .form-check-label {
+          padding-left: 0.5em;
+        }
+      </style>
+
+</head>
+
+<body>
+
+    <ul class="nav justify-content-center" style="padding-top:16px;">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Your Recs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="preferences.html">Preferences</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+        </li>
+    </ul>
+
+
+    <header class="text-center my-5">
+        <h1>Preferences</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Form with drop down Grad / undergrad and program datalist -->
+
+        <form>
+            <div class="form-group">
+                <label for="educationLevel">Education Level</label>
+                <select class="form-control" id="educationLevel">
+                    <optgroup label="Select one">
+                        <option value="Undergraduate">Undergraduate</option>
+                        <option value="Graduate">Graduate</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="program">Program</label>
+                <input list="programs" class="form-control" id="program" name="program">
+                <datalist id="programs">
+                    <option value="Aerospace Engineering">Aerospace Engineering</option>
+			<option value="African American and Diaspora Studies">African American and Diaspora Studies</option>
+			<option value="African Studies">African Studies</option>
+			<option value="Afro-Luso-Brazilian Studies">Afro-Luso-Brazilian Studies</option>
+			<option value="American Culture">American Culture</option>
+			<option value="Anthropology">Anthropology</option>
+			<option value="Anthropology and History">Anthropology and History</option>
+			<option value="Applied Physics">Applied Physics</option>
+			<option value="Architecture">Architecture</option>
+			<option value="Art and Design">Art and Design</option>
+			<option value="Integrative Design">Integrative Design</option>
+			<option value="Asian Languages and Cultures">Asian Languages and Cultures</option>
+			<option value="Chinese Studies">Chinese Studies</option>
+			<option value="South Asian Studies">South Asian Studies</option>
+			<option value="Southeast Asian Studies">Southeast Asian Studies</option>
+			<option value="Astronomy and Astrophysics">Astronomy and Astrophysics</option>
+			<option value="Bioinformatics">Bioinformatics</option>
+			<option value="Bioinformatics (PIBS)">Bioinformatics (PIBS)</option>
+			<option value="Biological Chemistry">Biological Chemistry</option>
+			<option value="Biological Chemistry (PIBS)">Biological Chemistry (PIBS)</option>
+			<option value="Biomedical Engineering">Biomedical Engineering</option>
+			<option value="Biomedical Sciences (PIBS)">Biomedical Sciences (PIBS)</option>
+			<option value="Biophysics">Biophysics</option>
+			<option value="Biostatistics">Biostatistics</option>
+			<option value="Business Administration">Business Administration</option>
+			<option value="Business and Economics">Business and Economics</option>
+			<option value="Business Research">Business Research</option>
+			<option value="Cancer Biology (PIBS)">Cancer Biology (PIBS)</option>
+			<option value="Cell and Developmental Biology (PIBS)">Cell and Developmental Biology (PIBS)</option>
+			<option value="Cellular and Molecular Biology (PIBS)">Cellular and Molecular Biology (PIBS)</option>
+			<option value="Cellular Biotechnology">Cellular Biotechnology</option>
+			<option value="Chemical Biology">Chemical Biology</option>
+			<option value="Chemical Biology of Cancer">Chemical Biology of Cancer</option>
+			<option value="Chemical Engineering">Chemical Engineering</option>
+			<option value="Chemistry">Chemistry</option>
+			<option value="Civil Engineering">Civil Engineering</option>
+			<option value="Construction Engineering and Management">Construction Engineering and Management</option>
+			<option value="Environmental Engineering">Environmental Engineering</option>
+			<option value="Ancient Mediterranean Art and Archaeology">Ancient Mediterranean Art and Archaeology</option>
+			<option value="Classical Studies">Classical Studies</option>
+			<option value="Greek">Greek</option>
+			<option value="Latin">Latin</option>
+			<option value="Climate and Space Sciences and Engineering">Climate and Space Sciences and Engineering</option>
+			<option value="Clinical Pharmacy Translational Science">Clinical Pharmacy Translational Science</option>
+			<option value="Clinical Research Design and Statistical Analysis">Clinical Research Design and Statistical Analysis</option>
+			<option value="Cognitive Science">Cognitive Science</option>
+			<option value="Communication and Media">Communication and Media</option>
+			<option value="Community Action and Research">Community Action and Research</option>
+			<option value="Comparative Literature">Comparative Literature</option>
+			<option value="Complex Systems">Complex Systems</option>
+			<option value="Computational Discovery and Engineering">Computational Discovery and Engineering</option>
+			<option value="Critical Translation Studies">Critical Translation Studies</option>
+			<option value="Data Science Certificate">Data Science Certificate</option>
+			<option value="Dental Hygiene">Dental Hygiene</option>
+			<option value="Endodontics">Endodontics</option>
+			<option value="Oral Health Sciences">Oral Health Sciences</option>
+			<option value="Orthodontics">Orthodontics</option>
+			<option value="Pediatric Dentistry">Pediatric Dentistry</option>
+			<option value="Periodontics">Periodontics</option>
+			<option value="Prosthodontics">Prosthodontics</option>
+			<option value="Restorative Dentistry">Restorative Dentistry</option>
+			<option value="Design Science">Design Science</option>
+			<option value="Earth and Environmental Sciences">Earth and Environmental Sciences</option>
+			<option value="Ecology and Evolutionary Biology">Ecology and Evolutionary Biology</option>
+			<option value="Applied Economics">Applied Economics</option>
+			<option value="Economics">Economics</option>
+			<option value="Public Policy and Economics">Public Policy and Economics</option>
+			<option value="Education and Psychology">Education and Psychology</option>
+			<option value="Educational Studies">Educational Studies</option>
+			<option value="Higher Education">Higher Education</option>
+			<option value="Computer Science and Engineering">Computer Science and Engineering</option>
+			<option value="Electrical and Computer Engineering">Electrical and Computer Engineering</option>
+			<option value="Engineering Education Research">Engineering Education Research</option>
+			<option value="English and Education">English and Education</option>
+			<option value="English Language and Literature">English Language and Literature</option>
+			<option value="Creative Writing">Creative Writing</option>
+			<option value="Environmental Health Sciences">Environmental Health Sciences</option>
+			<option value="Toxicology">Toxicology</option>
+			<option value="Epidemiologic Science">Epidemiologic Science</option>
+			<option value="European and European Union Studies">European and European Union Studies</option>
+			<option value="German Studies">German Studies</option>
+			<option value="Germanic Languages and Literatures">Germanic Languages and Literatures</option>
+			<option value="Ancient History">Ancient History</option>
+			<option value="Health and Health Care Research">Health and Health Care Research</option>
+			<option value="Health Behavior and Health Education">Health Behavior and Health Education</option>
+			<option value="Health Infrastructures and Learning Systems">Health Infrastructures and Learning Systems</option>
+			<option value="Health Services Organization and Policy">Health Services Organization and Policy</option>
+			<option value="History">History</option>
+			<option value="History of Art">History of Art</option>
+			<option value="Genetic Counseling">Genetic Counseling</option>
+			<option value="Genetics and Genomics (PIBS)">Genetics and Genomics (PIBS)</option>
+			<option value="Immunology (PIBS)">Immunology (PIBS)</option>
+			<option value="Industrial and Operations Engineering">Industrial and Operations Engineering</option>
+			<option value="Information">Information</option>
+			<option value="International and Regional Studies">International and Regional Studies</option>
+			<option value="Judaic Studies">Judaic Studies</option>
+			<option value="Movement Science">Movement Science</option>
+			<option value="Physical Activity and Nutrition">Physical Activity and Nutrition</option>
+			<option value="Sport Management">Sport Management</option>
+			<option value="Latin American and Caribbean Studies">Latin American and Caribbean Studies</option>
+			<option value="Latina/o Studies">Latina/o Studies</option>
+			<option value="LGBTQ Studies">LGBTQ Studies</option>
+			<option value="Linguistics">Linguistics</option>
+			<option value="Macromolecular Science and Engineering">Macromolecular Science and Engineering</option>
+			<option value="Materials Science and Engineering">Materials Science and Engineering</option>
+			<option value="Applied and Interdisciplinary Mathematics">Applied and Interdisciplinary Mathematics</option>
+			<option value="Mathematics">Mathematics</option>
+			<option value="Mechanical Engineering">Mechanical Engineering</option>
+			<option value="Medical Scientist Training Program">Medical Scientist Training Program</option>
+			<option value="Medicinal Chemistry">Medicinal Chemistry</option>
+			<option value="Medieval and Early Modern Studies">Medieval and Early Modern Studies</option>
+			<option value="Microbiology and Immunology">Microbiology and Immunology</option>
+			<option value="Microbiology and Immunology (PIBS)">Microbiology and Immunology (PIBS)</option>
+			<option value="Microfluidics in Biomedical Sciences Training Program (MBSTP)">Microfluidics in Biomedical Sciences Training Program (MBSTP)</option>
+			<option value="Molecular and Cellular Pathology (PIBS)">Molecular and Cellular Pathology (PIBS)</option>
+			<option value="Molecular and Integrative Physiology (PIBS)">Molecular and Integrative Physiology (PIBS)</option>
+			<option value="Molecular, Cellular, and Developmental Biology">Molecular, Cellular, and Developmental Biology</option>
+			<option value="Molecular, Cellular, and Developmental Biology (PIBS)">Molecular, Cellular, and Developmental Biology (PIBS)</option>
+			<option value="Museum Studies">Museum Studies</option>
+			<option value="Arts Entrepreneurship and Leadership">Arts Entrepreneurship and Leadership</option>
+			<option value="Composition">Composition</option>
+			<option value="Composition and Music Theory">Composition and Music Theory</option>
+			<option value="Conducting: Band/Wind Ensemble">Conducting: Band/Wind Ensemble</option>
+			<option value="Conducting: Choral">Conducting: Choral</option>
+			<option value="Conducting: Orchestral">Conducting: Orchestral</option>
+			<option value="Dance">Dance</option>
+			<option value="Media Arts">Media Arts</option>
+			<option value="Music Education">Music Education</option>
+			<option value="Music Theory">Music Theory</option>
+			<option value="Music Theory Pedagogy">Music Theory Pedagogy</option>
+			<option value="Musicology">Musicology</option>
+			<option value="Musicology: Ethnomusicology">Musicology: Ethnomusicology</option>
+			<option value="Musicology: History">Musicology: History</option>
+			<option value="Performance: Bassoon">Performance: Bassoon</option>
+			<option value="Performance: Cello">Performance: Cello</option>
+			<option value="Performance: Clarinet">Performance: Clarinet</option>
+			<option value="Performance: Collaborative Piano">Performance: Collaborative Piano</option>
+			<option value="Performance: Double Bass">Performance: Double Bass</option>
+			<option value="Performance: Euphonium">Performance: Euphonium</option>
+			<option value="Performance: Flute">Performance: Flute</option>
+			<option value="Performance: French Horn">Performance: French Horn</option>
+			<option value="Performance: Harp">Performance: Harp</option>
+			<option value="Performance: Harpsichord">Performance: Harpsichord</option>
+			<option value="Performance: Oboe">Performance: Oboe</option>
+			<option value="Performance: Organ: Sacred Music">Performance: Organ: Sacred Music</option>
+			<option value="Performance: Organ">Performance: Organ</option>
+			<option value="Performance: Percussion">Performance: Percussion</option>
+			<option value="Performance: Piano">Performance: Piano</option>
+			<option value="Performance: Piano Pedagogy and Performance">Performance: Piano Pedagogy and Performance</option>
+			<option value="Performance: Saxophone">Performance: Saxophone</option>
+			<option value="Performance: Trombone">Performance: Trombone</option>
+			<option value="Performance: Trumpet">Performance: Trumpet</option>
+			<option value="Performance: Tuba">Performance: Tuba</option>
+			<option value="Performance: Viola">Performance: Viola</option>
+			<option value="Performance: Violin">Performance: Violin</option>
+			<option value="Performance: Voice">Performance: Voice</option>
+			<option value="Environmental Justice">Environmental Justice</option>
+			<option value="Industrial Ecology">Industrial Ecology</option>
+			<option value="Landscape Architecture">Landscape Architecture</option>
+			<option value="Environment and Sustainability">Environment and Sustainability</option>
+			<option value="Spatial Analysis">Spatial Analysis</option>
+			<option value="Sustainability">Sustainability</option>
+			<option value="Naval Architecture and Marine Engineering">Naval Architecture and Marine Engineering</option>
+			<option value="Arabic Studies">Arabic Studies</option>
+			<option value="Middle East Studies">Middle East Studies</option>
+			<option value="Neuroscience">Neuroscience</option>
+			<option value="Neuroscience (PIBS)">Neuroscience (PIBS)</option>
+			<option value="Medical Physics">Medical Physics</option>
+			<option value="Nuclear Engineering and Radiological Sciences">Nuclear Engineering and Radiological Sciences</option>
+			<option value="Nursing, Ph.D.">Nursing, Ph.D.</option>
+			<option value="Nutritional Sciences">Nutritional Sciences</option>
+			<option value="Pharmaceutical Sciences">Pharmaceutical Sciences</option>
+			<option value="Pharmacology">Pharmacology</option>
+			<option value="Pharmacology (PIBS)">Pharmacology (PIBS)</option>
+			<option value="Philosophy">Philosophy</option>
+			<option value="Physics">Physics</option>
+			<option value="Molecular and Integrative Physiology">Molecular and Integrative Physiology</option>
+			<option value="PIBS (Program In Biomedical Sciences)">PIBS (Program In Biomedical Sciences)</option>
+			<option value="Plasma Science and Engineering">Plasma Science and Engineering</option>
+			<option value="Political Science">Political Science</option>
+			<option value="Political Science and Public Policy">Political Science and Public Policy</option>
+			<option value="Psychology">Psychology</option>
+			<option value="Public Affairs">Public Affairs</option>
+			<option value="Public Policy">Public Policy</option>
+			<option value="Public Policy and Political Science">Public Policy and Political Science</option>
+			<option value="Public Policy and Sociology">Public Policy and Sociology</option>
+			<option value="Science, Technology, and Public Policy">Science, Technology, and Public Policy</option>
+			<option value="Quantitative Finance and Risk Management">Quantitative Finance and Risk Management</option>
+			<option value="Robotics">Robotics</option>
+			<option value="Romance Languages and Literatures: French">Romance Languages and Literatures: French</option>
+			<option value="Romance Languages and Literatures: Italian">Romance Languages and Literatures: Italian</option>
+			<option value="Romance Languages and Literatures: Spanish">Romance Languages and Literatures: Spanish</option>
+			<option value="Russian, East European, and Eurasian Studies">Russian, East European, and Eurasian Studies</option>
+			<option value="Science, Technology, and Society">Science, Technology, and Society</option>
+			<option value="Scientific Computing">Scientific Computing</option>
+			<option value="Film, Television, and Media">Film, Television, and Media</option>
+			<option value="Slavic Languages and Literatures">Slavic Languages and Literatures</option>
+			<option value="Social Work and Anthropology">Social Work and Anthropology</option>
+			<option value="Social Work and Psychology">Social Work and Psychology</option>
+			<option value="Social Work and Sociology">Social Work and Sociology</option>
+			<option value="Sociology">Sociology</option>
+			<option value="Sociology and Public Policy">Sociology and Public Policy</option>
+			<option value="Applied Statistics">Applied Statistics</option>
+			<option value="Statistics">Statistics</option>
+			<option value="Survey and Data Science">Survey and Data Science</option>
+			<option value="Transcultural Studies">Transcultural Studies</option>
+			<option value="Translational Research Education">Translational Research Education</option>
+			<option value="Healthy Cities">Healthy Cities</option>
+			<option value="Real Estate Development">Real Estate Development</option>
+			<option value="Urban Informatics">Urban Informatics</option>
+			<option value="Urban and Regional Planning">Urban and Regional Planning</option>
+			<option value="Women's and Gender Studies">Women's and Gender Studies</option>
+			<option value="English and Women's and Gender Studies">English and Women's and Gender Studies</option>
+			<option value="History and Women's and Gender Studies">History and Women's and Gender Studies</option>
+			<option value="Psychology and Women's and Gender Studies">Psychology and Women's and Gender Studies</option>
+			<option value="World Performance Studies">World Performance Studies</option>
+			<option value="Computer and Information Science">Computer and Information Science</option>
+			<option value="Industrial and Systems Engineering">Industrial and Systems Engineering</option>
+			<option value="Arts Administration">Arts Administration</option>
+			<option value="Liberal Studies">Liberal Studies</option>
+			<option value="Digital Studies">Digital Studies</option>
+			<option value="Data Science">Data Science</option>
+			<option value="Computational Neuroscience">Computational Neuroscience</option>
+			<option value="Electrical, Electronics, and Computer Engineering">Electrical, Electronics, and Computer Engineering</option>
+			<option value="Mechanical Sciences and Engineering">Mechanical Sciences and Engineering</option>
+			<option value="Human Genetics">Human Genetics</option>
+			<option value="Precision Health Certificate">Precision Health Certificate</option>
+			<option value="Integrated Pharmaceutical Sciences">Integrated Pharmaceutical Sciences</option>
+			<option value="Learning Experience Design">Learning Experience Design</option>
+			<option value="Jazz and Contemporary Improvisation">Jazz and Contemporary Improvisation</option>
+			<option value="Educational Leadership and Policy">Educational Leadership and Policy</option>
+			<option value="Athletic Training">Athletic Training</option>
+			<option value="Population and Health Sciences">Population and Health Sciences</option>
+			<option value="Extended Reality XR">Extended Reality XR</option>
+			<option value="Classical Reception Studies">Classical Reception Studies</option>
+			<option value="Health Infrastructures and Learning Systems - Online">Health Infrastructures and Learning Systems - Online</option>
+			<option value="Climate Change Solutions">Climate Change Solutions</option>
+			<option value="Computational Epidemiology and Systems Modeling">Computational Epidemiology and Systems Modeling</option>
+			<option value="Performing Arts Technology">Performing Arts Technology</option>
+			<option value="Public Administration">Public Administration</option>
+			<option value="Biostatistics: Health Data Science">Biostatistics: Health Data Science</option>
+			<option value="Translational Research Education">Translational Research Education</option>
+			<option value="Environment and Sustainability">Environment and Sustainability</option>
+			<option value="Actuarial Mathematics (Sub-Major)">Actuarial Mathematics (Sub-Major)</option>
+			<option value="Aerospace Engineering">Aerospace Engineering</option>
+			<option value="Afroamerican and African Studies">Afroamerican and African Studies</option>
+			<option value="American Culture">American Culture</option>
+			<option value="Anthropology">Anthropology</option>
+			<option value="Applied Exercise Science">Applied Exercise Science</option>
+			<option value="Architecture">Architecture</option>
+			<option value="Art and Design">Art and Design</option>
+			<option value="Arts and Ideas in the Humanities">Arts and Ideas in the Humanities</option>
+			<option value="Asian Studies">Asian Studies</option>
+			<option value="Astronomy and Astrophysics">Astronomy and Astrophysics</option>
+			<option value="Biochemistry">Biochemistry</option>
+			<option value="Biology">Biology</option>
+			<option value="Biology, Health, and Society">Biology, Health, and Society</option>
+			<option value="Biomedical Engineering">Biomedical Engineering</option>
+			<option value="Biomolecular Science">Biomolecular Science</option>
+			<option value="Biophysics">Biophysics</option>
+			<option value="Biopsychology, Cognition, and Neuroscience">Biopsychology, Cognition, and Neuroscience</option>
+			<option value="Business">Business</option>
+			<option value="Cellular and Molecular Biomedical Science">Cellular and Molecular Biomedical Science</option>
+			<option value="Chemical Engineering">Chemical Engineering</option>
+			<option value="Chemistry">Chemistry</option>
+			<option value="Civil Engineering">Civil Engineering</option>
+			<option value="Classical Archaeology">Classical Archaeology</option>
+			<option value="Classical Civilization">Classical Civilization</option>
+			<option value="Classical Languages and Literatures">Classical Languages and Literatures</option>
+			<option value="Climate and Meteorology">Climate and Meteorology</option>
+			<option value="Cognitive Science">Cognitive Science</option>
+			<option value="Communication and Media">Communication and Media</option>
+			<option value="Community and Global Public Health">Community and Global Public Health</option>
+			<option value="Comparative Culture and Identity">Comparative Culture and Identity</option>
+			<option value="Comparative Literature">Comparative Literature</option>
+			<option value="Composition">Composition</option>
+			<option value="Computer Engineering">Computer Engineering</option>
+			<option value="Computer Science (BS)">Computer Science (BS)</option>
+			<option value="Computer Science (BSE)">Computer Science (BSE)</option>
+			<option value="Creative Writing and Literature">Creative Writing and Literature</option>
+			<option value="Dance">Dance</option>
+			<option value="Data Science">Data Science</option>
+			<option value="Data Science (BS)">Data Science (BS)</option>
+			<option value="Dental Hygiene">Dental Hygiene</option>
+			<option value="Drama">Drama</option>
+			<option value="Earth and Environmental Sciences">Earth and Environmental Sciences</option>
+			<option value="Ecology, Evolution, and Biodiversity">Ecology, Evolution, and Biodiversity</option>
+			<option value="Economics">Economics</option>
+			<option value="Electrical Engineering">Electrical Engineering</option>
+			<option value="Elementary Teacher Education">Elementary Teacher Education</option>
+			<option value="Engineering Physics">Engineering Physics</option>
+			<option value="English">English</option>
+			<option value="Environment">Environment</option>
+			<option value="Environmental Engineering">Environmental Engineering</option>
+			<option value="Ethnic Studies">Ethnic Studies</option>
+			<option value="Evolutionary Anthropology">Evolutionary Anthropology</option>
+			<option value="Film, Television, and Media">Film, Television, and Media</option>
+			<option value="French and Francophone Studies">French and Francophone Studies</option>
+			<option value="Gender and Health">Gender and Health</option>
+			<option value="General Studies">General Studies</option>
+			<option value="German">German</option>
+			<option value="Global Environment and Health">Global Environment and Health</option>
+			<option value="Greek (Ancient) Language and Literature">Greek (Ancient) Language and Literature</option>
+			<option value="Greek (Modern) Language and Culture">Greek (Modern) Language and Culture</option>
+			<option value="History">History</option>
+			<option value="History of Art">History of Art</option>
+			<option value="Industrial and Operations Engineering">Industrial and Operations Engineering</option>
+			<option value="Information Analysis and Design">Information Analysis and Design</option>
+			<option value="Interarts Performance">Interarts Performance</option>
+			<option value="Interarts Performance">Interarts Performance</option>
+			<option value="Interdisciplinary Astronomy">Interdisciplinary Astronomy</option>
+			<option value="Interdisciplinary Chemical Sciences">Interdisciplinary Chemical Sciences</option>
+			<option value="Interdisciplinary Physics">Interdisciplinary Physics</option>
+			<option value="International Security, Norms, and Cooperation">International Security, Norms, and Cooperation</option>
+			<option value="International Studies">International Studies</option>
+			<option value="Italian">Italian</option>
+			<option value="Jazz & Contemporary Improvisation">Jazz & Contemporary Improvisation</option>
+			<option value="Judaic Studies">Judaic Studies</option>
+			<option value="Latin American and Caribbean Studies">Latin American and Caribbean Studies</option>
+			<option value="Latin Language and Literature">Latin Language and Literature</option>
+			<option value="Latina/Latino Studies">Latina/Latino Studies</option>
+			<option value="Learning, Equity, and Problem Solving for the Public Good (LEAPS)">Learning, Equity, and Problem Solving for the Public Good (LEAPS)</option>
+			<option value="Linguistics">Linguistics</option>
+			<option value="Materials Science and Engineering">Materials Science and Engineering</option>
+			<option value="Mathematical Sciences">Mathematical Sciences</option>
+			<option value="Mathematics">Mathematics</option>
+			<option value="Mathematics of Finance and Risk Management">Mathematics of Finance and Risk Management</option>
+			<option value="Mechanical Engineering">Mechanical Engineering</option>
+			<option value="Microbiology">Microbiology</option>
+			<option value="Middle East Studies">Middle East Studies</option>
+			<option value="Middle Eastern and North African Studies">Middle Eastern and North African Studies</option>
+			<option value="Molecular, Cellular, and Developmental Biology">Molecular, Cellular, and Developmental Biology</option>
+			<option value="Movement Science">Movement Science</option>
+			<option value="Music">Music</option>
+			<option value="Music Education">Music Education</option>
+			<option value="Music Theory">Music Theory</option>
+			<option value="Musical Theatre">Musical Theatre</option>
+			<option value="Musicology">Musicology</option>
+			<option value="Naval Architecture and Marine Engineering">Naval Architecture and Marine Engineering</option>
+			<option value="Neuroscience">Neuroscience</option>
+			<option value="Nuclear Engineering and Radiological Sciences">Nuclear Engineering and Radiological Sciences</option>
+			<option value="Nursing">Nursing</option>
+			<option value="Organ">Organ</option>
+			<option value="Organizational Studies">Organizational Studies</option>
+			<option value="Performing Arts Technology">Performing Arts Technology</option>
+			<option value="Pharmaceutical Sciences">Pharmaceutical Sciences</option>
+			<option value="Philosophy">Philosophy</option>
+			<option value="Philosophy, Politics, and Economics">Philosophy, Politics, and Economics</option>
+			<option value="Physics">Physics</option>
+			<option value="Piano">Piano</option>
+			<option value="Plant Biology">Plant Biology</option>
+			<option value="Polish">Polish</option>
+			<option value="Political Economy and Development">Political Economy and Development</option>
+			<option value="Political Science">Political Science</option>
+			<option value="Psychology">Psychology</option>
+			<option value="Public Health Sciences">Public Health Sciences</option>
+			<option value="Public Policy">Public Policy</option>
+			<option value="Pure Mathematics">Pure Mathematics</option>
+			<option value="Robotics">Robotics</option>
+			<option value="Romance Languages and Literatures">Romance Languages and Literatures</option>
+			<option value="Russian">Russian</option>
+			<option value="Russian, East European, and Eurasian Studies">Russian, East European, and Eurasian Studies</option>
+			<option value="Secondary Teacher Education">Secondary Teacher Education</option>
+			<option value="Sociology">Sociology</option>
+			<option value="Space Sciences and Engineering">Space Sciences and Engineering</option>
+			<option value="Spanish">Spanish</option>
+			<option value="Sport Management">Sport Management</option>
+			<option value="Statistics">Statistics</option>
+			<option value="Strings">Strings</option>
+			<option value="Structural Biology">Structural Biology</option>
+			<option value="Theatre & Drama">Theatre & Drama</option>
+			<option value="Urban Technology">Urban Technology</option>
+			<option value="User Experience Design">User Experience Design</option>
+			<option value="Voice">Voice</option>
+			<option value="Winds and Percussion">Winds and Percussion</option>
+			<option value="Women’s and Gender Studies">Women’s and Gender Studies</option>
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="researchInterests">Research Interests</label>
+                <input type="text" class="form-control" id="researchInterests" name="researchInterests">
+            </div>
+            <div class="form-group">
+                <label>Event Preferences</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="seminar" name="eventPreference" value="seminar">
+                    <label class="form-check-label" for="seminar">Seminar</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="sportEvents" name="eventPreference"
+                        value="sportEvents">
+                    <label class="form-check-label" for="sportEvents">Sport Events</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="social" name="eventPreference" value="social">
+                    <label class="form-check-label" for="social">Social</label>
+                </div>
+                <!-- Add more checkboxes for other event types -->
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

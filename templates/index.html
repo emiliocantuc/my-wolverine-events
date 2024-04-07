@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My UMICH Events</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
             <a class="nav-link" href="#">Your Recs</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="settings.html">Settings</a>
+            <a class="nav-link" href="preferences.html">Preferences</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">About</a>
@@ -24,15 +24,18 @@
     </ul>
 
 
-    <header class="text-center" style="padding-top:80px;padding-bottom:32px;">
+    <header class="text-center" style="padding-top:80px;padding-bottom:62px;">
         <h1 class="display-5">My UMICH Events</h1>
-        <p class="lead">Get personalized event recommendations</p>
+        <p class="lead">Get weekly university event recommendations</p>
+        <!-- Sign up button -->
+        <a class="btn btn-primary" href="signup.html">Sign Up</a>
     </header>
 
 
     <h3 class="text-center">Popular Events This Week</h3><br>
 
     <div class="container p-0">
+        <!-- <div class="card-group"> -->
         <div class="card-deck">
 
             {{events}}
@@ -40,6 +43,13 @@
             <!-- Add more cards as needed -->
         </div>
     </div>
+
+    <footer class="text-center py-3 mt-5 border-top">
+        <p>
+            Built by <a href="https://emiliocantuc.github.io/">me</a>.
+            Code openly <a href="my-umich-events">available</a>.
+            Recommendations welcome <a href="mailto:tmp@gmail.com">here</a>.</p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
