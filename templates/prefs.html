@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        // Fit checkboxes not serializing when unchecked
+        // Taken from https://gist.github.com/corlaez/5f5f6f43524634ebd702bdf4fd936552
+        window.onload = function () {
+            document.body.addEventListener('htmx:configRequest', function (evt) {
+                const isInput = evt.detail.elt.tagName == 'INPUT';
+                const isCheckbox = evt.detail.elt.type == 'checkbox';
+                const isNotChecked = evt.detail.elt.checked == false;
+                if (isInput && isCheckbox && isNotChecked) {
+                    const name = evt.detail.elt.name;
+                    evt.detail.parameters[name] = false;
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <ul class="nav justify-content-center" style="padding-top:16px;">
+        <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/recs">Your Recs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+        </li>
+    </ul>
+
+
+    <header class="text-center my-5">
+        <h1>Preferences</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Education Level -->
+        <div class="form-group">
+            <label for="educationLevel">Education Level<small class="text-muted ml-2 htmx-indicator"
+                    id="educationLevel_indicator">Updating ...</small></label>
+            <select class="form-control" id="educationLevel" name="educationLevel" hx-put="/prefs"
+                hx-target="next small" hx-indicator="#educationLevel_indicator">
+                <option value="Undergraduate">Undergraduate</option>
+                <option value="Graduate">Graduate</option>
+            </select>
+            <small class="form-text text-muted"></small>
+        </div>
+
+        <!-- Program -->
+        <div class="form-group">
+            <label for="program">Program<small class="text-muted ml-2 htmx-indicator" id="program_indicator">Updating
+                    ...</small></label></label>
+            <input hx-put="/prefs" hx-target="next small" hx-indicator="#program_indicator" list="programs"
+                class="form-control" id="program" name="program">
+            <datalist id="programs">
+                {{programs}}
+            </datalist>
+            <small class="form-text text-muted"></small>
+        </div>
+
+        <!-- Primary campus location: North Campus / Central Campus / South -->
+        <div class="form-group">
+            <label for="campusLocation">Primary Campus Location<small class="text-muted ml-2 htmx-indicator"
+                    id="campusLocation_indicator">Updating ...</small></label>
+            <select class="form-control" name="campusLocation" hx-put="/prefs" hx-target="next small"
+                hx-indicator="#campusLocation_indicator">
+                <option value="North Campus">North Campus</option>
+                <option value="Central Campus" selected>Central Campus</option>
+                <option value="South Campus">South Campus</option>
+            </select>
+            <small class="form-text text-muted"></small>
+        </div>
+
+        <!-- Research Interests -->
+        <div class="form-group">
+            <label for="researchInterests" class="mb-0">Research Interests<small class="text-muted ml-2"><span
+                        id="researchIntests_indicator" class="htmx-indicator">Updating
+                        ...</span></small></label></label>
+            <small class="form-text text-muted mt-0 mb-1">Seperated by commas</small>
+            <textarea type="text" class="form-control" id="researchInterests" name="researchInterests"
+                placeholder="E.g: machine learning, deep learning, interpretability" hx-put="/prefs"
+                hx-indicator="#researchIntests_indicator" hx-target="next small"></textarea>
+            <small class="form-text text-muted"></small>
+        </div>
+
+        <!-- Event Types -->
+        <div class="form-group">
+            <label>Include events of type<small class="text-muted ml-2"><span id="eventTypes_indicator"
+                        class="htmx-indicator">Updating ...</span></small></label>
+
+            {{eventCheckboxes}}
+
+        </div>
+
+        <!-- Keywords to avoid -->
+        <div class="form-group">
+            <label for="keywordsToAvoid" class="mb-0">Keywords to avoid<small class="text-muted ml-2"><span
+                        id="keywordsToAvoid_indicator" class="htmx-indicator">Updating
+                        ...</span></small></label></label>
+            <small class="form-text text-muted mt-0 mb-1">Seperated by commas</small>
+            <textarea type="text" class="form-control" id="keywordsToAvoid" name="keywordsToAvoid"
+                placeholder="E.g: housing, resume" hx-put="/prefs" hx-indicator="#keywordsToAvoid_indicator"
+                hx-target="next small"></textarea>
+            <small class="form-text text-muted"></small>
+        </div>
+    </div>
+
+    <!-- Calendar / Schedule input? -->
+
+    <!-- </form> -->
+    <p style="margin-top: 64px;"></p>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

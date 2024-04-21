@@ -71,17 +71,26 @@ if __name__ == '__main__':
     UNDERGRAD_PROGRAMS_URL = 'https://admissions.umich.edu/academics-majors/majors-degrees'
     GRAD_PROGRAMS_URL = 'https://rackham.umich.edu/programs-of-study/'
     JSON_DIR = 'static/json/'
+    OUTPUT_FILE = os.path.join(JSON_DIR, 'programs.json')
+    os.makedirs(JSON_DIR, exist_ok = True)
+
 
     # Get undergrad programs
-    undergrad_programs = get_undergrad_programs(UNDERGRAD_PROGRAMS_URL)
-    if undergrad_programs:
-        write_programs(undergrad_programs, os.path.join(JSON_DIR,'programs_undergrad.json'))
-    else:
-        print('Failed to get undergrad programs')
+    try:
+        undergrad_programs = get_undergrad_programs(UNDERGRAD_PROGRAMS_URL)
+        if undergrad_programs:
+            write_programs(undergrad_programs, OUTPUT_FILE)
+            print('Successfully got undergrad programs')
+
+    except Exception as e:
+        print('Failed to get undergrad programs:', e)
 
     # Get grad programs
-    grad_programs = get_grad_programs(GRAD_PROGRAMS_URL)
-    if grad_programs:
-        write_programs(grad_programs, os.path.join(JSON_DIR,'programs_grad.json'))
-    else:
-        print('Failed to get grad programs')
+    try:
+        grad_programs = get_grad_programs(GRAD_PROGRAMS_URL)
+        if grad_programs:
+            write_programs(grad_programs, OUTPUT_FILE)
+            print('Successfully got grad programs')
+
+    except Exception as e:
+        print('Failed to get grad programs:', e)

@@ -3,3 +3,8 @@
     vertical-align: -.125em;
     fill: currentcolor
 }
+
+.card-body a {
+    text-decoration: none;
+    color: black;
+}

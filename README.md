@@ -1,5 +1,12 @@
 # my-umich-events
 
+## How to run 
+In development:
+
+```
+uvicorn main:app --reload
+```
+
 ## Ideas
 
 ### Overall design

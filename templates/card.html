@@ -2,10 +2,14 @@
     <div class="card">
         <div class="card-body">
 
-            <h6 class="card-title">{{title}}</h6>
-            <p class="card-subtitle text-muted">Card subtitle</p>
-            <p class="card-text">{{description}}</p>
-            <div>
+            <a href="{{event_link}}" target="_blank">
+                <h6 class="card-title">{{title}}</h6>
+            </a>
+            <p class="card-subtitle text-muted">{{subtitle}}</p>
+            <a href="{{event_link}}" target="_blank">
+                <p class="card-text">{{description}}</p>
+            </a>
+            <div class="mt-3">
 
                 <!-- Add to calendar button -->
                 <button class="btn btn-outline-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"

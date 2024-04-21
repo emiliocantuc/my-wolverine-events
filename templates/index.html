@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My UMICH Events</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 
 <body>
 
     <ul class="nav justify-content-center" style="padding-top:16px;">
         <li class="nav-item">
-            <a class="nav-link" href="#">Your Recs</a>
+            <a class="nav-link" href="/recs">Your Recs</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="preferences.html">Preferences</a>
+            <a class="nav-link" href="/prefs">Preferences</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="/about">About</a>
         </li>
     </ul>
 
@@ -37,10 +37,7 @@
     <div class="container p-0">
         <!-- <div class="card-group"> -->
         <div class="card-deck">
-
             {{events}}
-
-            <!-- Add more cards as needed -->
         </div>
     </div>
 
