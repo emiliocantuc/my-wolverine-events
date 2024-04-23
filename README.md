@@ -32,3 +32,7 @@ List of recommended events
 - research interests (str - maybe further along)
 - keywords
 - researcher talks w/h index above threshold
+
+## Where to apply ML?
+- Summarize card titles and descriptions
+- Recommendations 

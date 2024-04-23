@@ -102,3 +102,8 @@ async def set_prefs(
     print(changed_param)
     time.sleep(1)
     return HTMLResponse(content = 'Saved', status_code = 200)
+
+@app.post("/upvote")
+async def upvote(event_id: str = None):
+    time.sleep(1)
+    return HTMLResponse(content = 'Upvoted', status_code = 200)
