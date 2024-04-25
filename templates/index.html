@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My UMICH Events</title>
+    <title>My Wolverine Events</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 </head>
 
 <body>
@@ -25,10 +26,10 @@
 
 
     <header class="text-center" style="padding-top:80px;padding-bottom:62px;">
-        <h1 class="display-5">My UMICH Events</h1>
+        <h1 class="display-5">My Wolverine Events</h1>
         <p class="lead">Get weekly university event recommendations</p>
         <!-- Sign up button: TODO replace w google signin -->
-        <a class="btn btn-primary" hx-post="/upvote" href="signup.html">Sign Up</a>
+        <div class="btn btn-primary">Sign Up</div>
     </header>
 
 
@@ -44,8 +45,8 @@
     <footer class="text-center py-3 mt-5 border-top">
         <p>
             Built by <a href="https://emiliocantuc.github.io/">me</a>.
-            Code openly <a href="my-umich-events">available</a>.
-            Recommendations welcome <a href="mailto:tmp@gmail.com">here</a>.</p>
+            Code openly <a href="https://github.com/emiliocantuc/my-wolverine-events">available</a>.
+            Recommendations welcome <a href="mailto:emilio@mywolverine.events">here</a>.</p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

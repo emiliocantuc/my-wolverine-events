@@ -1,4 +1,4 @@
-import requests, json, argparse, os
+import requests, urllib.parse, json, argparse, os
 
 
 def get_events(url):
@@ -13,6 +13,20 @@ def get_events(url):
     except:
         raise Exception('Could not parse events from the url. Make sure its the JSON version of the events page.')
 
+def get_cal_links(events_json):
+
+    for event in events_json:
+        try:
+            permalink = event['permalink']
+            html = requests.get(permalink).text
+            gcal = html.split('googleCal_href": "')[1].split('"')[0]
+            ical = html.split('iCal_href": "')[1].split('"')[0]
+            ical = urllib.parse.urljoin(permalink, ical)
+            event['gcal_link'] = gcal
+            event['ical_link'] = ical
+        except: pass
+
+
 
 if __name__ == '__main__':
 
@@ -25,6 +39,8 @@ if __name__ == '__main__':
     assert os.path.exists(os.path.dirname(args.output)), 'The output directory does not exist'
     
     events = get_events(args.eventsURL)
+    get_cal_links(events)
+
     print(f'Found {len(events)} events')
     with open(args.output, 'w+') as f:
         print(f'Saving events to {args.output}')
