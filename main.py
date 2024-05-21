@@ -1,18 +1,25 @@
 from typing import Optional, Union
 
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Response, Request, status
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from pydantic import BaseModel
 
+from google.oauth2 import id_token
+from google.auth.transport import requests
+import jwt
+
 import json, time
+
+JWT_SECRET = "secret"
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRE_MINUTES = 30
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory = "static"), name = "static")
 templates = Jinja2Templates(directory="templates")
-
 
 @app.get("/")
 async def root():
@@ -58,7 +65,13 @@ async def root():
 
 
 @app.get("/prefs", response_class = HTMLResponse)
-async def get_prefs():
+async def get_prefs(request: Request):
+
+    logged_in, email = is_logged_in(request)
+    if not logged_in:
+        return  HTMLResponse(content = 'Not authorized', status_code = 401)
+        # handle_not_logged_in()
+
     # Read the template file
     with open("templates/prefs.html") as f:
         template = f.read()
@@ -86,6 +99,29 @@ async def get_prefs():
     template = template.replace('{{eventCheckboxes}}', '\n\t\t\t'.join(eventTypes_HTML))
     
     return HTMLResponse(content = template, status_code = 200)
+
+def is_logged_in(request: Request):
+    try:
+        encoded_jwt = request.cookies.get('jwt')
+        email = jwt.decode(encoded_jwt, JWT_SECRET, algorithms = [JWT_ALGORITHM])['email']
+        return True, email
+    except Exception as e:
+        print(e)
+        return False, ''
+
+@app.post("/login")
+async def login(credential: str = Form(), g_csrf_token: str = Form()):
+    try:
+        idinfo = id_token.verify_oauth2_token(credential, requests.Request(), '')
+        encoded_jwt = jwt.encode({"email": idinfo['email']}, JWT_SECRET, algorithm = JWT_ALGORITHM)
+        response = RedirectResponse(url = '/prefs', status_code = status.HTTP_303_SEE_OTHER)
+        response.set_cookie(key = "jwt", value = encoded_jwt)  
+        return response 
+        
+    except:
+        # Error page template
+        return "an error occurred. please try again."
+
 
 @app.put("/prefs")
 async def set_prefs(

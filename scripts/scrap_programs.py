@@ -64,6 +64,20 @@ def write_programs(programs, filename):
         f.write(json.dumps(programs, indent = 4))
     print(f'Wrote {len(programs)} programs to {filename}')
 
+def write_programs_to_template(programs, filename):
+
+    with open(filename, 'r') as f:
+        html = f.read()
+    
+    out = html.split('<!-- ProgramsBegin -->')[0] + '<!-- ProgramsBegin -->\n'
+    out += '\n'.join([f'\t\t\t\t<option value="{p}">{p}</option>' for p in programs])
+    out += '\n\t\t\t\t<!-- ProgramsEnd -->' + html.split('<!-- ProgramsEnd -->')[1]
+
+    with open(filename, 'w+') as f:
+        f.write(out)
+
+    print(f'Wrote {len(programs)} programs to {filename}')
+
 
 
 if __name__ == '__main__':
@@ -72,6 +86,7 @@ if __name__ == '__main__':
     GRAD_PROGRAMS_URL = 'https://rackham.umich.edu/programs-of-study/'
     JSON_DIR = 'static/json/'
     OUTPUT_FILE = os.path.join(JSON_DIR, 'programs.json')
+    TEMPLATE_FILE = 'templates/prefs.html'
     os.makedirs(JSON_DIR, exist_ok = True)
 
 
@@ -80,6 +95,7 @@ if __name__ == '__main__':
         undergrad_programs = get_undergrad_programs(UNDERGRAD_PROGRAMS_URL)
         if undergrad_programs:
             write_programs(undergrad_programs, OUTPUT_FILE)
+            write_programs_to_template(undergrad_programs, TEMPLATE_FILE)
             print('Successfully got undergrad programs')
 
     except Exception as e:
@@ -90,6 +106,7 @@ if __name__ == '__main__':
         grad_programs = get_grad_programs(GRAD_PROGRAMS_URL)
         if grad_programs:
             write_programs(grad_programs, OUTPUT_FILE)
+            write_programs_to_template(undergrad_programs, TEMPLATE_FILE)
             print('Successfully got grad programs')
 
     except Exception as e:

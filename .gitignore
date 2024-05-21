@@ -1,5 +1,7 @@
 # Custom
 *.db
+*.out
+my-wolverine-events
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

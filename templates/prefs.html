@@ -2,127 +2,303 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preferences</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/styles.css">
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-    <script>
-        // Fit checkboxes not serializing when unchecked
-        // Taken from https://gist.github.com/corlaez/5f5f6f43524634ebd702bdf4fd936552
-        window.onload = function () {
-            document.body.addEventListener('htmx:configRequest', function (evt) {
-                const isInput = evt.detail.elt.tagName == 'INPUT';
-                const isCheckbox = evt.detail.elt.type == 'checkbox';
-                const isNotChecked = evt.detail.elt.checked == false;
-                if (isInput && isCheckbox && isNotChecked) {
-                    const name = evt.detail.elt.name;
-                    evt.detail.parameters[name] = false;
-                }
-            });
-        }
-    </script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Preferences</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/styles.css">
+	<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+	<script>
+		// Fix checkboxes not serializing when unchecked
+		// Taken from https://gist.github.com/corlaez/5f5f6f43524634ebd702bdf4fd936552
+		window.onload = function () {
+			document.body.addEventListener('htmx:configRequest', function (evt) {
+				const isInput = evt.detail.elt.tagName == 'INPUT';
+				const isCheckbox = evt.detail.elt.type == 'checkbox';
+				const isNotChecked = evt.detail.elt.checked == false;
+				if (isInput && isCheckbox && isNotChecked) {
+					const name = evt.detail.elt.name;
+					evt.detail.parameters[name] = false;
+				}
+			});
+		}
+	</script>
 </head>
 
 <body>
 
-    <ul class="nav justify-content-center" style="padding-top:16px;">
-        <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/recs">Your Recs</a>
-        </li>
-    </ul>
+	<ul class="nav justify-content-center" style="padding-top:16px;">
+		<li class="nav-item">
+			<a class="nav-link" href="/">Home</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/recs">Your Recs</a>
+		</li>
+	</ul>
 
 
-    <header class="text-center my-5">
-        <h1>Preferences</h1>
-    </header>
+	<header class="text-center my-5">
+		<h1>Preferences</h1>
+	</header>
 
-    <div class="container">
+	<div class="container">
 
-        <!-- Education Level -->
-        <div class="form-group">
-            <label for="educationLevel">Education Level<small class="text-muted ml-2 htmx-indicator"
-                    id="educationLevel_indicator">Updating ...</small></label>
-            <select class="form-control" id="educationLevel" name="educationLevel" hx-put="/prefs"
-                hx-target="next small" hx-indicator="#educationLevel_indicator">
-                <option value="Undergraduate">Undergraduate</option>
-                <option value="Graduate">Graduate</option>
-            </select>
-            <small class="form-text text-muted"></small>
-        </div>
+		<!-- Education Level -->
+		<div class="form-group">
+			<label for="educationLevel">Education Level<small class="text-muted ml-2 htmx-indicator"
+					id="educationLevel_indicator">Updating ...</small></label>
+			<select class="form-control" id="educationLevel" name="educationLevel" hx-put="/prefs"
+				hx-target="next small" hx-indicator="#educationLevel_indicator">
+				<option value="Undergraduate" {{ if (eq .EducationLevel "Undergraduate" ) }} selected="selected" {{ end
+					}}>Undergraduate</option>
+				<option value="Graduate" {{ if (eq .EducationLevel "Graduate" ) }} selected="selected" {{ end }}>
+					Graduate</option>
+			</select>
+			<small class="form-text text-muted"></small>
+		</div>
 
-        <!-- Program -->
-        <div class="form-group">
-            <label for="program">Program<small class="text-muted ml-2 htmx-indicator" id="program_indicator">Updating
-                    ...</small></label></label>
-            <input hx-put="/prefs" hx-target="next small" hx-indicator="#program_indicator" list="programs"
-                class="form-control" id="program" name="program">
-            <datalist id="programs">
-                {{programs}}
-            </datalist>
-            <small class="form-text text-muted"></small>
-        </div>
+		<!-- Program -->
+		<div class="form-group">
+			<label for="program">Program<small class="text-muted ml-2 htmx-indicator" id="program_indicator">Updating
+					...</small></label></label>
+			<input hx-put="/prefs" hx-target="next small" hx-indicator="#program_indicator" list="programs"
+				class="form-control" id="program" name="program" placeholder="{{.Program}}">
+			<datalist id="programs">
+				<!-- ProgramsBegin -->
+				<option value="Actuarial Mathematics (Sub-Major)">Actuarial Mathematics (Sub-Major)</option>
+				<option value="Aerospace Engineering">Aerospace Engineering</option>
+				<option value="Afroamerican and African Studies">Afroamerican and African Studies</option>
+				<option value="American Culture">American Culture</option>
+				<option value="Anthropology">Anthropology</option>
+				<option value="Applied Exercise Science">Applied Exercise Science</option>
+				<option value="Architecture">Architecture</option>
+				<option value="Art and Design">Art and Design</option>
+				<option value="Arts and Ideas in the Humanities">Arts and Ideas in the Humanities</option>
+				<option value="Asian Studies">Asian Studies</option>
+				<option value="Astronomy and Astrophysics">Astronomy and Astrophysics</option>
+				<option value="Biochemistry">Biochemistry</option>
+				<option value="Biology">Biology</option>
+				<option value="Biology, Health, and Society">Biology, Health, and Society</option>
+				<option value="Biomedical Engineering">Biomedical Engineering</option>
+				<option value="Biomolecular Science">Biomolecular Science</option>
+				<option value="Biophysics">Biophysics</option>
+				<option value="Biopsychology, Cognition, and Neuroscience">Biopsychology, Cognition, and Neuroscience
+				</option>
+				<option value="Business">Business</option>
+				<option value="Cellular and Molecular Biomedical Science">Cellular and Molecular Biomedical Science
+				</option>
+				<option value="Chemical Engineering">Chemical Engineering</option>
+				<option value="Chemistry">Chemistry</option>
+				<option value="Civil Engineering">Civil Engineering</option>
+				<option value="Classical Archaeology">Classical Archaeology</option>
+				<option value="Classical Civilization">Classical Civilization</option>
+				<option value="Classical Languages and Literatures">Classical Languages and Literatures</option>
+				<option value="Climate and Meteorology">Climate and Meteorology</option>
+				<option value="Cognitive Science">Cognitive Science</option>
+				<option value="Communication and Media">Communication and Media</option>
+				<option value="Community and Global Public Health">Community and Global Public Health</option>
+				<option value="Comparative Culture and Identity">Comparative Culture and Identity</option>
+				<option value="Comparative Literature">Comparative Literature</option>
+				<option value="Composition">Composition</option>
+				<option value="Computer Engineering">Computer Engineering</option>
+				<option value="Computer Science (BS)">Computer Science (BS)</option>
+				<option value="Computer Science (BSE)">Computer Science (BSE)</option>
+				<option value="Creative Writing and Literature">Creative Writing and Literature</option>
+				<option value="Dance">Dance</option>
+				<option value="Data Science">Data Science</option>
+				<option value="Data Science (BS)">Data Science (BS)</option>
+				<option value="Dental Hygiene">Dental Hygiene</option>
+				<option value="Drama">Drama</option>
+				<option value="Earth and Environmental Sciences">Earth and Environmental Sciences</option>
+				<option value="Ecology, Evolution, and Biodiversity">Ecology, Evolution, and Biodiversity</option>
+				<option value="Economics">Economics</option>
+				<option value="Electrical Engineering">Electrical Engineering</option>
+				<option value="Elementary Teacher Education">Elementary Teacher Education</option>
+				<option value="Engineering Physics">Engineering Physics</option>
+				<option value="English">English</option>
+				<option value="Environment">Environment</option>
+				<option value="Environmental Engineering">Environmental Engineering</option>
+				<option value="Ethnic Studies">Ethnic Studies</option>
+				<option value="Evolutionary Anthropology">Evolutionary Anthropology</option>
+				<option value="Film, Television, and Media">Film, Television, and Media</option>
+				<option value="French and Francophone Studies">French and Francophone Studies</option>
+				<option value="Gender and Health">Gender and Health</option>
+				<option value="General Studies">General Studies</option>
+				<option value="German">German</option>
+				<option value="Global Environment and Health">Global Environment and Health</option>
+				<option value="Greek (Ancient) Language and Literature">Greek (Ancient) Language and Literature</option>
+				<option value="Greek (Modern) Language and Culture">Greek (Modern) Language and Culture</option>
+				<option value="History">History</option>
+				<option value="History of Art">History of Art</option>
+				<option value="Industrial and Operations Engineering">Industrial and Operations Engineering</option>
+				<option value="Information Analysis and Design">Information Analysis and Design</option>
+				<option value="Interarts Performance">Interarts Performance</option>
+				<option value="Interarts Performance">Interarts Performance</option>
+				<option value="Interdisciplinary Astronomy">Interdisciplinary Astronomy</option>
+				<option value="Interdisciplinary Chemical Sciences">Interdisciplinary Chemical Sciences</option>
+				<option value="Interdisciplinary Physics">Interdisciplinary Physics</option>
+				<option value="International Security, Norms, and Cooperation">International Security, Norms, and
+					Cooperation</option>
+				<option value="International Studies">International Studies</option>
+				<option value="Italian">Italian</option>
+				<option value="Jazz & Contemporary Improvisation">Jazz & Contemporary Improvisation</option>
+				<option value="Judaic Studies">Judaic Studies</option>
+				<option value="Latin American and Caribbean Studies">Latin American and Caribbean Studies</option>
+				<option value="Latin Language and Literature">Latin Language and Literature</option>
+				<option value="Latina/Latino Studies">Latina/Latino Studies</option>
+				<option value="Learning, Equity, and Problem Solving for the Public Good (LEAPS)">Learning, Equity, and
+					Problem Solving for the Public Good (LEAPS)</option>
+				<option value="Linguistics">Linguistics</option>
+				<option value="Materials Science and Engineering">Materials Science and Engineering</option>
+				<option value="Mathematical Sciences">Mathematical Sciences</option>
+				<option value="Mathematics">Mathematics</option>
+				<option value="Mathematics of Finance and Risk Management">Mathematics of Finance and Risk Management
+				</option>
+				<option value="Mechanical Engineering">Mechanical Engineering</option>
+				<option value="Microbiology">Microbiology</option>
+				<option value="Middle East Studies">Middle East Studies</option>
+				<option value="Middle Eastern and North African Studies">Middle Eastern and North African Studies
+				</option>
+				<option value="Molecular, Cellular, and Developmental Biology">Molecular, Cellular, and Developmental
+					Biology</option>
+				<option value="Movement Science">Movement Science</option>
+				<option value="Music">Music</option>
+				<option value="Music Education">Music Education</option>
+				<option value="Music Theory">Music Theory</option>
+				<option value="Musical Theatre">Musical Theatre</option>
+				<option value="Musicology">Musicology</option>
+				<option value="Naval Architecture and Marine Engineering">Naval Architecture and Marine Engineering
+				</option>
+				<option value="Neuroscience">Neuroscience</option>
+				<option value="Nuclear Engineering and Radiological Sciences">Nuclear Engineering and Radiological
+					Sciences</option>
+				<option value="Nursing">Nursing</option>
+				<option value="Organ">Organ</option>
+				<option value="Organizational Studies">Organizational Studies</option>
+				<option value="Performing Arts Technology">Performing Arts Technology</option>
+				<option value="Pharmaceutical Sciences">Pharmaceutical Sciences</option>
+				<option value="Philosophy">Philosophy</option>
+				<option value="Philosophy, Politics, and Economics">Philosophy, Politics, and Economics</option>
+				<option value="Physics">Physics</option>
+				<option value="Piano">Piano</option>
+				<option value="Plant Biology">Plant Biology</option>
+				<option value="Polish">Polish</option>
+				<option value="Political Economy and Development">Political Economy and Development</option>
+				<option value="Political Science">Political Science</option>
+				<option value="Psychology">Psychology</option>
+				<option value="Public Health Sciences">Public Health Sciences</option>
+				<option value="Public Policy">Public Policy</option>
+				<option value="Pure Mathematics">Pure Mathematics</option>
+				<option value="Robotics">Robotics</option>
+				<option value="Romance Languages and Literatures">Romance Languages and Literatures</option>
+				<option value="Russian">Russian</option>
+				<option value="Russian, East European, and Eurasian Studies">Russian, East European, and Eurasian
+					Studies</option>
+				<option value="Secondary Teacher Education">Secondary Teacher Education</option>
+				<option value="Sociology">Sociology</option>
+				<option value="Space Sciences and Engineering">Space Sciences and Engineering</option>
+				<option value="Spanish">Spanish</option>
+				<option value="Sport Management">Sport Management</option>
+				<option value="Statistics">Statistics</option>
+				<option value="Strings">Strings</option>
+				<option value="Structural Biology">Structural Biology</option>
+				<option value="Theatre & Drama">Theatre & Drama</option>
+				<option value="Urban Technology">Urban Technology</option>
+				<option value="User Experience Design">User Experience Design</option>
+				<option value="Voice">Voice</option>
+				<option value="Winds and Percussion">Winds and Percussion</option>
+				<option value="Women’s and Gender Studies">Women’s and Gender Studies</option>
+				<!-- ProgramsEnd -->
 
-        <!-- Primary campus location: North Campus / Central Campus / South -->
-        <div class="form-group">
-            <label for="campusLocation">Primary Campus Location<small class="text-muted ml-2 htmx-indicator"
-                    id="campusLocation_indicator">Updating ...</small></label>
-            <select class="form-control" name="campusLocation" hx-put="/prefs" hx-target="next small"
-                hx-indicator="#campusLocation_indicator">
-                <option value="North Campus">North Campus</option>
-                <option value="Central Campus" selected>Central Campus</option>
-                <option value="South Campus">South Campus</option>
-            </select>
-            <small class="form-text text-muted"></small>
-        </div>
 
-        <!-- Interests -->
-        <div class="form-group">
-            <label for="interests" class="mb-0">Interests<small class="text-muted ml-2"><span
-                        id="interests_indicator" class="htmx-indicator">Updating
-                        ...</span></small></label></label>
-            <small class="form-text text-muted mt-0 mb-1">Seperated by commas</small>
-            <textarea type="text" class="form-control" id="interests" name="interests"
-                placeholder="E.g: machine learning, deep learning, soccer" hx-put="/prefs"
-                hx-indicator="#interests_indicator" hx-target="next small"></textarea>
-            <small class="form-text text-muted"></small>
-        </div>
+			</datalist>
+			<small class="form-text text-muted"></small>
+		</div>
 
-        <!-- Event Types -->
-        <div class="form-group">
-            <label>Include events of type<small class="text-muted ml-2"><span id="eventTypes_indicator"
-                        class="htmx-indicator">Updating ...</span></small></label>
+		<!-- Primary campus location: North Campus / Central Campus / South -->
+		<div class="form-group">
+			<label for="campusLocation">Primary Campus Location<small class="text-muted ml-2 htmx-indicator"
+					id="campusLocation_indicator">Updating ...</small></label>
+			<select class="form-control" name="campusLocation" hx-put="/prefs" hx-target="next small"
+				hx-indicator="#campusLocation_indicator">
+				<option value="North Campus" {{ if (eq .CampusLocation "North Campus" ) }} selected="selected" {{ end
+					}}>North Campus</option>
+				<option value="Central Campus" {{ if (eq .CampusLocation "Central Campus" ) }} selected="selected" {{
+					end }}>Central Campus</option>
+				<option value="South Campus" {{ if (eq .CampusLocation "South Campus" ) }} selected="selected" {{ end
+					}}>South Campus</option>
+			</select>
+			<small class="form-text text-muted"></small>
+		</div>
 
-            {{eventCheckboxes}}
+		<!-- Interests -->
+		<div class="form-group">
+			<label for="interests" class="mb-0">Interests<small class="text-muted ml-2"><span id="interests_indicator"
+						class="htmx-indicator">Updating
+						...</span></small></label></label>
+			<small class="form-text text-muted mt-0 mb-1">Seperated by commas</small>
+			<textarea type="text" class="form-control" id="interests" name="interests"
+				placeholder="E.g: machine learning, deep learning, soccer" hx-put="/prefs"
+				hx-indicator="#interests_indicator" hx-target="next small">{{.Interests}}</textarea>
+			<small class="form-text text-muted"></small>
+		</div>
 
-        </div>
+		<!-- Event Types -->
+		<div class="form-group">
+			<label>Include events of type<small class="text-muted ml-2"><span id="eventTypes_indicator"
+						class="htmx-indicator">Updating ...</span></small></label>
 
-        <!-- Keywords to avoid -->
-        <div class="form-group">
-            <label for="keywordsToAvoid" class="mb-0">Keywords to avoid<small class="text-muted ml-2"><span
-                        id="keywordsToAvoid_indicator" class="htmx-indicator">Updating
-                        ...</span></small></label></label>
-            <small class="form-text text-muted mt-0 mb-1">Seperated by commas</small>
-            <textarea type="text" class="form-control" id="keywordsToAvoid" name="keywordsToAvoid"
-                placeholder="E.g: housing, resume" hx-put="/prefs" hx-indicator="#keywordsToAvoid_indicator"
-                hx-target="next small"></textarea>
-            <small class="form-text text-muted"></small>
-        </div>
-    </div>
+			<!-- Seminars -->
+			<div class="form-check">
+				<input name="incSeminars" value="true" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
+					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSeminars}} checked{{ end }}>
+				<label class="form-check-label" for="flexCheckDefault">
+					Seminars
+				</label>
+			</div>
 
-    <!-- Calendar / Schedule input? -->
+			<!-- Sports -->
+			<div class="form-check">
+				<input name="incSports" value="true" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
+					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSports}} checked{{ end }}>
+				<label class="form-check-label" for="flexCheckDefault">
+					Sports
+				</label>
+			</div>
 
-    <!-- </form> -->
-    <p style="margin-top: 64px;"></p>
+			<!-- Social -->
+			<div class="form-check">
+				<input name="incSocial" value="true" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
+					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSocial}} checked{{ end }}>
+				<label class="form-check-label" for="flexCheckDefault">
+					Social
+				</label>
+			</div>
+
+		</div>
+
+		<!-- Keywords to avoid -->
+		<div class="form-group">
+			<label for="keywordsToAvoid" class="mb-0">Keywords to avoid<small class="text-muted ml-2"><span
+						id="keywordsToAvoid_indicator" class="htmx-indicator">Updating
+						...</span></small></label></label>
+			<small class="form-text text-muted mt-0 mb-1">Seperated by commas</small>
+			<textarea type="text" class="form-control" id="keywordsToAvoid" name="keywordsToAvoid"
+				placeholder="E.g: housing, resume" hx-put="/prefs" hx-indicator="#keywordsToAvoid_indicator"
+				hx-target="next small">{{ .KeywordsToAvoid }}</textarea>
+			<small class="form-text text-muted"></small>
+		</div>
+	</div>
+
+	<!-- Calendar / Schedule input? -->
+
+	<!-- </form> -->
+	<p style="margin-top: 64px;"></p>
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
