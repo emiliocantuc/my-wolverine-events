@@ -54,7 +54,11 @@
     <div class="container p-0">
         <!-- <div class="card-group"> -->
         <div class="card-deck">
-            <!-- events here -->
+
+            {{range .FeaturedEvents}}
+                {{template "eventCard" .}}
+            {{end}}
+            
         </div>
     </div>
 
