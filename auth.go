@@ -45,6 +45,7 @@ func login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	http.SetCookie(w, &http.Cookie{Name: "jwt", Value: jwtString})
+	// TODO redirect to /prefs if new usr and to / otherwise
 	http.Redirect(w, req, "/", http.StatusSeeOther)
 }
 

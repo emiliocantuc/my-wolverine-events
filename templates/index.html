@@ -24,18 +24,14 @@
         <li class="nav-item">
             <a class="nav-link" href="/logout">Logout</a>
         </li>
-        {{ else }}
-        <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-        </li>
         {{ end }}
     </ul>
 
 
-    <header class="text-center" style="padding-top:80px;padding-bottom:62px;">
-        <h1 class="display-5">My Wolverine Events</h1>
-        <p class="lead">Get weekly university event recommendations</p>
+    <header class="text-center" style="padding-top:64px;padding-bottom:64px;">
+        <h1>My Wolverine Events</h1>
         {{ if not .LoggedIn }}
+        <p class="lead">Get weekly university event recommendations</p>
         <div id="g_id_onload" data-client_id="{{.GoogleClientId}}"
             data-context="use" data-ux_mode="popup" data-login_uri="https://mywolverine.events/login"
             data-auto_prompt="false">

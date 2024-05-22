@@ -18,6 +18,7 @@ type EventCard struct {
 	CalendarLink string
 }
 
+// TODO do we need this?
 func respondWithTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 	t, err := template.ParseFiles(tmpl)
 	if err != nil {
