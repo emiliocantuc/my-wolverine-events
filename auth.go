@@ -16,57 +16,41 @@ import (
 )
 
 type UserClaims struct {
+	Id    int64  `json:"id"`
 	Email string `json:"email"`
 	jwt.StandardClaims
 }
 
-func login(w http.ResponseWriter, req *http.Request) {
+func verifySignin(credential string) (string, error) {
 
-	// Verify the Signin with google token
-	payload, err := idtoken.Validate(context.Background(), req.FormValue("credential"), os.Getenv("GOOGLE_CLIENT_ID"))
+	payload, err := idtoken.Validate(context.Background(), credential, os.Getenv("GOOGLE_CLIENT_ID"))
 	if err != nil {
-		log.Println(err)
-		// TODO error code
-		fmt.Fprint(w, "Could not authenticate")
-		return
+		return "", err
 	}
 	email, ok := payload.Claims["email"].(string)
 	if !ok {
-		log.Println("login email err:", err)
-		fmt.Fprint(w, "Could not authenticate")
-		return
+		return "", fmt.Errorf("error: email not in payload claims")
 	}
-
-	// Generate JWT, place in cookie "jwt", and redirect to prefs
-	jwtString, err := jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaims{Email: email}).SignedString([]byte(os.Getenv("JWT_SECRET")))
-	if err != nil {
-		log.Println("login jwt err:", err)
-		fmt.Fprint(w, "Could not authenticate")
-		return
-	}
-	http.SetCookie(w, &http.Cookie{Name: "jwt", Value: jwtString})
-	// TODO redirect to /prefs if new usr and to / otherwise
-	http.Redirect(w, req, "/", http.StatusSeeOther)
+	return email, nil
 }
 
-func logout(w http.ResponseWriter, req *http.Request) {
-	http.SetCookie(w, &http.Cookie{Name: "jwt", Value: ""})
-	http.Redirect(w, req, "/", http.StatusSeeOther)
+func jwtEncodeEmailId(email string, id int64) (string, error) {
+	return jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaims{Email: email, Id: id}).SignedString([]byte(os.Getenv("JWT_SECRET")))
 }
 
-func loggedInEmail(req *http.Request) (bool, string) {
+func loggedInEmail(req *http.Request) (bool, string, int64) {
 	jwtCookie, err := req.Cookie("jwt")
 	if err != nil {
 		log.Println("loggedInEmail no cookie:", err)
-		return false, ""
+		return false, "", 0
 	}
 	parsedToken, err := jwt.ParseWithClaims(jwtCookie.Value, &UserClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
 		log.Println("loggedInEmail parse jwt:", err)
-		return false, ""
+		return false, "", 0
 	}
 	claims := parsedToken.Claims.(*UserClaims)
-	return true, claims.Email
+	return true, claims.Email, claims.Id
 }

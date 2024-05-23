@@ -3,18 +3,18 @@
     <div class="card">
         <div class="card-body">
 
-            <a href="{{ .EventLink }}" target="_blank">
+            <a href="{{ .PermaLink }}" target="_blank">
                 <h6 class="card-title">{{ .Title }}</h6>
             </a>
             <p class="card-subtitle text-muted">{{ .Subtitle }}</p>
-            <a href="{{ .EventLink }}" target="_blank">
+            <a href="{{ .PermaLink }}" target="_blank">
                 <p class="card-text">{{ .Description }}</p>
             </a>
             <div class="mt-3">
 
                 <!-- Add to calendar button -->
                 <a href="{{ .CalendarLink }}" target="_blank">
-                    <div hx-put="/vote?eventId={{ .EventID }}&type=cal" class="btn btn-outline-primary"><svg
+                    <div hx-put="/vote?eventId={{ .Id }}&type=C" class="btn btn-outline-primary"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-calendar-plus" viewBox="0 0 16 16">
                             <path
@@ -26,7 +26,7 @@
                 </a>
 
                 <!-- Upvote button -->
-                <div hx-put="/vote?eventId={{ .EventID }}&type=up" class="btn btn-outline-secondary">
+                <div hx-put="/vote?eventId={{ .Id }}&type=U" class="btn btn-outline-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                         <path
@@ -35,7 +35,7 @@
                 </div>
 
                 <!-- Downvote button -->
-                <div hx-put="/vote?eventId={{ .EventID }}&type=down" type="button" class="btn btn-outline-secondary">
+                <div hx-put="/vote?eventId={{ .Id }}&type=D" type="button" class="btn btn-outline-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
                         <path

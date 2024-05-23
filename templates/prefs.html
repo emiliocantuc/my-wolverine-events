@@ -18,7 +18,7 @@
 				const isNotChecked = evt.detail.elt.checked == false;
 				if (isInput && isCheckbox && isNotChecked) {
 					const name = evt.detail.elt.name;
-					evt.detail.parameters[name] = false;
+					evt.detail.parameters[name] = 0;
 				}
 			});
 		}
@@ -250,8 +250,9 @@
 
 			<!-- Seminars -->
 			<div class="form-check">
-				<input name="incSeminars" value="true" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
-					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSeminars}} checked{{ end }}>
+				<input name="incSeminars" value="1" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
+					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSeminars}}
+					checked{{ end }}>
 				<label class="form-check-label" for="flexCheckDefault">
 					Seminars
 				</label>
@@ -259,8 +260,9 @@
 
 			<!-- Sports -->
 			<div class="form-check">
-				<input name="incSports" value="true" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
-					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSports}} checked{{ end }}>
+				<input name="incSports" value="1" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
+					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSports}} checked{{
+					end }}>
 				<label class="form-check-label" for="flexCheckDefault">
 					Sports
 				</label>
@@ -268,8 +270,9 @@
 
 			<!-- Social -->
 			<div class="form-check">
-				<input name="incSocial" value="true" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
-					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSocial}} checked{{ end }}>
+				<input name="incSocial" value="1" hx-put="/prefs" hx-indicator="#eventTypes_indicator"
+					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .IncSocial}} checked{{
+					end }}>
 				<label class="form-check-label" for="flexCheckDefault">
 					Social
 				</label>
@@ -288,7 +291,29 @@
 				hx-target="next small">{{ .KeywordsToAvoid }}</textarea>
 			<small class="form-text text-muted"></small>
 		</div>
+
+		<!-- Send Email -->
+		<div class="form-group">
+			<label>Notify me (weekly) when recommendations are ready<small class="text-muted ml-2"><span
+						id="sendEmail_indicator" class="htmx-indicator">Updating ...</span></small></label>
+
+			<div class="form-check">
+				<input name="sendEmail" value="1" hx-put="/prefs" hx-indicator="#sendEmail_indicator"
+					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .SendEmail}} checked{{
+					end }}>
+				<label class="form-check-label" for="flexCheckDefault">
+					Email
+				</label>
+			</div>
+		</div>
+
+		<a class="text-danger" hx-delete="/prefs" hx-confirm="Are you sure you wish to delete your account?">
+			Delete Account
+		</a>
 	</div>
+
+	<br><br>
+
 
 	<!-- Calendar / Schedule input? -->
 
