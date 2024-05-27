@@ -5,6 +5,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
@@ -158,6 +159,7 @@ type EventCard struct {
 	CalendarLink string
 	PermaLink    string
 	BuildingName string
+	LoggedIn     bool
 }
 
 func formatEvent(event EventCard) EventCard {
@@ -167,9 +169,46 @@ func formatEvent(event EventCard) EventCard {
 		}
 		return s
 	}
+
+	formatTime := func(startDate string) string {
+		t, err := time.Parse(time.RFC3339, startDate)
+		if err != nil {
+			return ""
+		}
+		return t.Format("3:04 PM")
+	}
+
+	cleanString := func(s, delimiter, toRemove string) string {
+		if idx := strings.Index(s, delimiter); idx != -1 {
+			s = s[:idx]
+		}
+		return strings.TrimSpace(strings.Replace(s, toRemove, "", -1))
+	}
+
+	// Truncate title and description
 	event.Title = truncate(event.Title, 75)
-	event.Description = truncate(event.Description, 200)
-	event.Subtitle = event.EventType + " | " + event.BuildingName
+	event.Description = truncate(event.Description, 300)
+
+	// Format EventType and BuildingName
+	eventType := cleanString(event.EventType, "/", "")
+	buildingName := event.BuildingName //cleanString(event.BuildingName, "", "location")
+
+	// Format Start Time
+	startTime := formatTime(event.StartDate)
+
+	// Construct Subtitle
+	var subtitleParts []string
+	if eventType != "" {
+		subtitleParts = append(subtitleParts, eventType)
+	}
+	if startTime != "" {
+		subtitleParts = append(subtitleParts, startTime)
+	}
+	if buildingName != "" {
+		subtitleParts = append(subtitleParts, buildingName)
+	}
+	event.Subtitle = strings.Join(subtitleParts, " | ")
+
 	return event
 }
 
@@ -188,9 +227,15 @@ func unmarshallEvents(rows *sql.Rows) ([]EventCard, error) {
 	var events []EventCard
 	for rows.Next() {
 		var event EventCard
-		err := rows.Scan(&event.Id, &event.Title, &event.EventType, &event.Description, &event.StartDate, &event.VoteDiff, &event.CalendarLink, &event.PermaLink, &event.BuildingName)
+		var voteDiff sql.NullInt64
+		err := rows.Scan(&event.Id, &event.Title, &event.EventType, &event.Description, &event.StartDate, &voteDiff, &event.CalendarLink, &event.PermaLink, &event.BuildingName)
 		if err != nil {
 			return nil, err
+		}
+		if voteDiff.Valid {
+			event.VoteDiff = int(voteDiff.Int64)
+		} else {
+			event.VoteDiff = 0
 		}
 		events = append(events, formatEvent(event))
 	}
@@ -203,7 +248,7 @@ func unmarshallEvents(rows *sql.Rows) ([]EventCard, error) {
 // GetTopEvents fetches the events with the highest up-down votes for the latest nweek
 func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
 
-	// TODO put a cache in front of this
+	// TODO put a cache in front of this ?
 
 	maxNweek, err := db.GetMaxNweek()
 	if err != nil {
@@ -245,11 +290,34 @@ func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return events, nil
 }
 
-// Get recommended to a usr
+func (db *DB) GetRecommendedEvents(userId int64) ([]EventCard, error) {
+	query := `
+        SELECT e.event_id, e.title, e.type, e.event_description, e.event_date, 
+               COALESCE(SUM(CASE WHEN v.vote_type = 'U' THEN 1 WHEN v.vote_type = 'D' THEN -1 ELSE 0 END), 0) as vote_diff,
+               e.gcal_link, e.permalink, e.building_name
+        FROM recommended_events re
+        JOIN events e ON re.event_id = e.event_id
+        LEFT JOIN votes v ON e.event_id = v.event_id
+        WHERE re.user_id = ?
+        GROUP BY e.event_id
+        ORDER BY vote_diff DESC, e.event_date DESC;
+    `
+
+	rows, err := db.Query(query, userId)
+	if err != nil {
+		return nil, fmt.Errorf("could not query recommended events: %v", err)
+	}
+	defer rows.Close()
+
+	events, err := unmarshallEvents(rows)
+	if err != nil {
+		return nil, err
+	}
+	return events, nil
+}
 
 // Vote
 func (db *DB) Vote(userId int64, eventId int, voteType string) error {

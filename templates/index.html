@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Wolverine Events</title>
+    <meta name="description" content="Get weekly personalized U of M (Ann Arbor) event recommendations">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="static/css/styles.css">
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <script src="https://accounts.google.com/gsi/client" async></script>
 </head>
@@ -15,9 +16,6 @@
 
     <ul class="nav justify-content-center" style="padding-top:16px;">
         {{ if .LoggedIn }}
-        <li class="nav-item">
-            <a class="nav-link" href="/recs">Your Recs</a>
-        </li>
         <li class="nav-item">
             <a class="nav-link" href="/prefs">Preferences</a>
         </li>
@@ -29,9 +27,9 @@
 
 
     <header class="text-center" style="padding-top:64px;padding-bottom:64px;">
-        <h1>My Wolverine Events</h1>
+        <h2>My Wolverine Events</h2>
         {{ if not .LoggedIn }}
-        <p class="lead">Get weekly university event recommendations</p>
+        <p class="lead">Get weekly personalized U of M (Ann Arbor) event recommendations</p>
         <div id="g_id_onload" data-client_id="{{.GoogleClientId}}"
             data-context="use" data-ux_mode="popup" data-login_uri="https://mywolverine.events/login"
             data-auto_prompt="false">
@@ -44,8 +42,30 @@
         {{end}}
     </header>
 
+    {{if .LoggedIn}}
+    {{if .RecommendedEvents}}
 
-    <h3 class="text-center">Popular Events This Week</h3><br>
+    <h3 class="text-center mb-5"><span>Your recommendations</span></h3><br>
+
+    <div class="container p-0">
+        <!-- <div class="card-group"> -->
+        <div class="card-deck">
+
+            {{range .RecommendedEvents}}
+                {{template "eventCard" .}}
+            {{end}}
+            
+        </div>
+    </div>
+    {{else}}
+    <div class="container text-center mb-5">
+        <p>Your recommendations have not been computed yet. They usually are during the weekend. We'll send you a reminder when they are ready!</p>
+    </div>   
+    {{end}}
+    {{end}}
+
+    {{if .FeaturedEvents}}
+    <h3 class="text-center"><span>Popular Events This Week</span></h3><br>
 
     <div class="container p-0">
         <!-- <div class="card-group"> -->
@@ -57,14 +77,37 @@
             
         </div>
     </div>
+    {{else}}
+    <div class="container text-center">
+        <p>No popular events found. Something might be wrong. Please <a href="mailto:emilio@mywolverine.events">email us</a> to let us know. Sorry!</p>
+    </div>
+    {{end}}
 
-    <footer class="text-center py-3 mt-5 border-top">
+    <footer class="text-center py-3 mt-5">
         <p>
             Built by <a href="https://emiliocantuc.github.io/">me</a>.
             Code openly <a href="https://github.com/emiliocantuc/my-wolverine-events">available</a>.
             Recommendations welcome <a href="mailto:emilio@mywolverine.events">here</a>.</p>
     </footer>
 
+    <script>
+        function toggleVoteButtons(id, dir){
+            console.log(id);
+            let upButton = document.getElementById(id + '_up');
+            let downButton = document.getElementById(id + '_down');
+            let counter = document.getElementById(id + '_count');
+            let counterInt = parseInt(counter.textContent, 10);
+            if(dir == 'up' && !upButton.classList.contains('text-warning')){
+                upButton.classList.add('text-warning');
+                downButton.classList.remove('text-warning');
+                counter.textContent = counterInt + 1;
+            }else if (dir == 'down' && !downButton.classList.contains('text-warning')){
+                upButton.classList.remove('text-warning');
+                downButton.classList.add('text-warning');
+                counter.textContent = counterInt - 1;
+            }
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
