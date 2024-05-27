@@ -36,9 +36,13 @@ h1 span, h2 span, h3 span {
     display:inline-block; /*optional */
 }
 
+.nav {
+    background-color: #FFCB05;
+    padding: 8px;
+}
+
 footer {
     background-color: #FFCB05;
-    border-top: 2px solid #00274C !important;
 }
 
 footer a {

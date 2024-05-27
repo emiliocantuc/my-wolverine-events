@@ -14,7 +14,7 @@
 
 <body>
 
-    <ul class="nav justify-content-center" style="padding-top:16px;">
+    <ul class="nav justify-content-center">
         {{ if .LoggedIn }}
         <li class="nav-item">
             <a class="nav-link" href="/prefs">Preferences</a>
@@ -26,7 +26,7 @@
     </ul>
 
 
-    <header class="text-center" style="padding-top:64px;padding-bottom:64px;">
+    <header class="text-center" style="padding-top:64px;padding-bottom:48px;">
         <h2>My Wolverine Events</h2>
         {{ if not .LoggedIn }}
         <p class="lead">Get weekly personalized U of M (Ann Arbor) event recommendations</p>

@@ -27,18 +27,17 @@
 
 <body>
 
-	<ul class="nav justify-content-center" style="padding-top:16px;">
+	<ul class="nav justify-content-center">
 		<li class="nav-item">
 			<a class="nav-link" href="/">Home</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="/recs">Your Recs</a>
 		</li>
 	</ul>
 
 
 	<header class="text-center my-5">
 		<h2>Preferences</h2>
+		<br>
+		<p>You optionally can input some of your info and interests to help us jump start your recommendations.<br> Eventually your recommendations should be based on the feedback you give to events. </p>
 	</header>
 
 	<div class="container">
@@ -294,7 +293,7 @@
 
 		<!-- Send Email -->
 		<div class="form-group">
-			<label>Notify me (weekly) when recommendations are ready<small class="text-muted ml-2"><span
+			<label>Notifications<small class="text-muted ml-2"><span
 						id="sendEmail_indicator" class="htmx-indicator">Updating ...</span></small></label>
 
 			<div class="form-check">
@@ -302,7 +301,7 @@
 					class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{if .SendEmail}} checked{{
 					end }}>
 				<label class="form-check-label" for="flexCheckDefault">
-					Email
+					Email me (weekly) when recommendations are ready
 				</label>
 			</div>
 		</div>
