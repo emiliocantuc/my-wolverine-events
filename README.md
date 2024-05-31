@@ -14,4 +14,3 @@ As sudo, run `sh run.sh` or ` nohup ./run.sh &` to leave running over ssh.
 ## TODOs
 - change prints to logs
 - fix datetime in cards
-- instructions for joining / leaving email list
