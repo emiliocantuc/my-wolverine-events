@@ -216,7 +216,7 @@ func main() {
 	mux.HandleFunc("/vote", vote)
 
 	// Serve static files from the "static" directory
-	fs := http.FileServer(http.Dir("./static"))
+	fs := http.FileServer(http.Dir("../static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 	log.Println("Static file server registered.")
 
