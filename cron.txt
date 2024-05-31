@@ -1,0 +1,11 @@
+# Simlinked cron file
+# Was simlinked with `ln -s /home/main/my-wolverine-events/cron.txt ~/.crontab`
+# To update the system's crontab when this file is changed run `crontab ~/.crontab`
+
+# m h  dom mon dow   command
+
+# Scrap events (when?)
+# 20 * * * * cd /home/main/my-wolverine-events && python3 -u scripts/scrap_events.py >> /home/main/my-wolverine-events/scripts/scrap.log 2>&1
+
+# Compute recs and send email
+# 25 * * * * cd /home/main/my-wolverine-events && python3 -u compute.py >> compute.log 2>&1 && python3 -u scripts/send_email.py >> scripts/compute.log 2>&1
