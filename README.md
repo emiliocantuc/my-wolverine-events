@@ -8,7 +8,7 @@ Create `.env` file with
 GOOGLE_CLIENT_ID=[The app's client ID]
 JWT_SECRET=[A random key. For example, generated w/openssl rand -hex 32]
 ```
-As sudo, run `sh run.sh` or ` nohup ./run.sh &` to leave running over ssh.
+As sudo, run `sh serve.sh` or ` nohup ./serve.sh &` to leave running over ssh.
 
 
 ## TODOs
