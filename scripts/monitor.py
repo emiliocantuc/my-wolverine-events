@@ -2,22 +2,10 @@
 # Ran with GitHub Actions (see .github/workflows/monitor.yml)
 
 import requests, sys
-
-def notify(msg, url):
-    if not CHANNEL:
-        print('There is no nfty channel!')
-        exit(1)
-
-    print(f'Notifying {msg}')
-    requests.post(
-        f"https://ntfy.sh/{CHANNEL}",
-        data = msg.encode('utf-8'),
-        headers = {
-            "Click": url,
-            "Tags": "warning,mywolverineevents"
-    })
+import utils
 
 def req(url, exit_on_error = True):
+    global CHANNEL
     r = None
     try:
         r = requests.get(url)
@@ -25,7 +13,7 @@ def req(url, exit_on_error = True):
             raise Exception(f'Status code {r.status_code} for {url}')
     except Exception as e:
         print(f'Error trying to access {url}: {e}')
-        notify(f'Site unreachable: {url}', url)
+        utils.notify(CHANNEL, f'Site unreachable: {url}', url)
         if exit_on_error: exit(1)
     return r
 
