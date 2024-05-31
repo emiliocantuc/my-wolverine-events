@@ -9,4 +9,4 @@ while IFS='=' read -r key value; do
 done < "$ENV_FILE"
 
 # Build and run executable
-go build; ./my-wolverine-events
+cd front && go build && ./my-wolverine-events-front
