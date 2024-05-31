@@ -251,6 +251,7 @@ func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
 	// TODO put a cache in front of this ?
 
 	maxNweek, err := db.GetMaxNweek()
+	fmt.Println("max week", maxNweek)
 	if err != nil {
 		return nil, err
 	}
@@ -294,6 +295,13 @@ func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
 }
 
 func (db *DB) GetRecommendedEvents(userId int64) ([]EventCard, error) {
+
+	maxNweek, err := db.GetMaxNweek()
+	fmt.Println("max week", maxNweek)
+	if err != nil {
+		return nil, err
+	}
+
 	query := `
         SELECT e.event_id, e.title, e.type, e.event_description, e.event_date, 
                COALESCE(SUM(CASE WHEN v.vote_type = 'U' THEN 1 WHEN v.vote_type = 'D' THEN -1 ELSE 0 END), 0) as vote_diff,
@@ -301,12 +309,12 @@ func (db *DB) GetRecommendedEvents(userId int64) ([]EventCard, error) {
         FROM recommended_events re
         JOIN events e ON re.event_id = e.event_id
         LEFT JOIN votes v ON e.event_id = v.event_id
-        WHERE re.user_id = ?
+        WHERE re.user_id = ? AND e.nweek = ?
         GROUP BY e.event_id
         ORDER BY vote_diff DESC, e.event_date DESC;
     `
 
-	rows, err := db.Query(query, userId)
+	rows, err := db.Query(query, userId, maxNweek)
 	if err != nil {
 		return nil, fmt.Errorf("could not query recommended events: %v", err)
 	}

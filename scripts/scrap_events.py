@@ -1,8 +1,6 @@
-# Fetches events from umich API and saves to db
+# Fetches events from umich API, saves then to events table and updates statistics table
 
-import sqlite3
-import requests, urllib.parse, argparse, os
-
+import sqlite3, requests, argparse, os
 
 def get_events(url):
     """Gets the events from the url and returns them as a list of dictionaries"""
@@ -23,10 +21,7 @@ def get_cal_links(events_json):
             permalink = event['permalink']
             html = requests.get(permalink).text
             gcal = html.split('googleCal_href": "')[1].split('"')[0]
-            # ical = html.split('iCal_href": "')[1].split('"')[0]
-            # ical = urllib.parse.urljoin(permalink, ical)
             event['gcal_link'] = gcal
-            # event['ical_link'] = ical
         except: pass
 
 def insert_event(cursor, event):
@@ -49,7 +44,7 @@ def insert_event(cursor, event):
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description = 'Gets events from the umich events API and saves to database')
+    parser = argparse.ArgumentParser(description = 'Fetches events from umich API, saves then to events table and updates statistics table')
     parser.add_argument('--eventsURL', type = str, help = 'Events json endpoint', default = 'https://events.umich.edu/week/json?v=2', required = False)
     parser.add_argument('--output', type = str, help = 'Output db file to save the events', default = 'data/main.db', required = False)
     args = parser.parse_args()
@@ -79,6 +74,18 @@ if __name__ == '__main__':
         for event in events:
             event['nweek'] = nweek
             insert_event(conn, event)
+
+        # Get the number of users
+        cursor.execute('SELECT COUNT(*) FROM users;')
+        nusers = cursor.fetchone()[0]
+        print(f'nusers = {nusers} ', end='')
+
+
+        # Insert into the statistics table
+        cursor.execute('''
+            INSERT INTO statistics (nweek, nusers, nevents)
+            VALUES (?, ?, ?);
+        ''', (nweek, nusers, len(events)))
 
         conn.commit()
         print('Committed')
