@@ -1,7 +1,7 @@
 # Custom
 *.db
 *.out
-my-wolverine-events
+front/my-wolverine-events-front
 email_params.json
 email.txt
 
