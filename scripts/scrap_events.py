@@ -1,6 +1,7 @@
 # Fetches events from umich API, saves then to events table and updates statistics table
 
 import sqlite3, requests, argparse, os
+from datetime import datetime
 
 def get_events(url):
     """Gets the events from the url and returns them as a list of dictionaries"""
@@ -26,13 +27,14 @@ def get_cal_links(events_json):
 
 def insert_event(cursor, event):
     cursor.execute('''
-    INSERT INTO events (nweek, title, event_description, event_date, type, permalink, building_name, building_id, gcal_link, umich_id)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO events (nweek, title, event_description, event_start, event_end, type, permalink, building_name, building_id, gcal_link, umich_id)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         event.get('nweek'),
         event.get('combined_title'),
         event.get('description'),
         event.get('datetime_start'),
+        event.get('datetime_end'),
         event.get('event_type'),
         event.get('permalink'),
         event.get('building_name'),
@@ -40,6 +42,13 @@ def insert_event(cursor, event):
         event.get('gcal_link'),
         event.get('id')
     ))
+
+def convert_to_sql_datetime(custom_datetime_str):
+    input_format = "%Y%m%dT%H%M%S"
+    dt = datetime.strptime(custom_datetime_str, input_format)
+    output_format = "%Y-%m-%d %H:%M:%S"
+    sql_datetime_str = dt.strftime(output_format)   
+    return sql_datetime_str
 
 
 if __name__ == '__main__':
@@ -73,6 +82,12 @@ if __name__ == '__main__':
         # Insert events
         for event in events:
             event['nweek'] = nweek
+            event['datetime_start'] = convert_to_sql_datetime(event['datetime_start'])
+            try:
+                event['datetime_end'] = convert_to_sql_datetime(event['datetime_end'])
+            except:
+                event['datetime_end'] = ''
+
             insert_event(conn, event)
 
         # Get the number of users

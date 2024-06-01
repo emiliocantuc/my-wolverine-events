@@ -13,4 +13,3 @@ As sudo, run `sh serve.sh` or ` nohup ./serve.sh &` to leave running over ssh.
 
 ## TODOs
 - change prints to logs
-- fix datetime in cards

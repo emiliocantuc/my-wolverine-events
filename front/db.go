@@ -155,6 +155,7 @@ type EventCard struct {
 	EventType    string
 	Description  string
 	StartDate    string
+	EndDate      string
 	VoteDiff     int
 	CalendarLink string
 	PermaLink    string
@@ -170,12 +171,16 @@ func formatEvent(event EventCard) EventCard {
 		return s
 	}
 
-	formatTime := func(startDate string) string {
-		t, err := time.Parse(time.RFC3339, startDate)
+	formatDT := func(dateTime string, day bool) string {
+		t, err := time.Parse(time.RFC3339, dateTime)
 		if err != nil {
 			return ""
 		}
-		return t.Format("3:04 PM")
+		if day {
+			return t.Format("Monday 3:04 PM")
+		} else {
+			return t.Format("3:04 PM")
+		}
 	}
 
 	cleanString := func(s, delimiter, toRemove string) string {
@@ -194,15 +199,19 @@ func formatEvent(event EventCard) EventCard {
 	buildingName := event.BuildingName //cleanString(event.BuildingName, "", "location")
 
 	// Format Start Time
-	startTime := formatTime(event.StartDate)
+	dateTime := formatDT(event.StartDate, true)
+	endTime := formatDT(event.EndDate, false)
+	if endTime != "" {
+		dateTime += " - " + endTime
+	}
 
 	// Construct Subtitle
 	var subtitleParts []string
 	if eventType != "" {
 		subtitleParts = append(subtitleParts, eventType)
 	}
-	if startTime != "" {
-		subtitleParts = append(subtitleParts, startTime)
+	if dateTime != "" {
+		subtitleParts = append(subtitleParts, dateTime)
 	}
 	if buildingName != "" {
 		subtitleParts = append(subtitleParts, buildingName)
@@ -228,7 +237,7 @@ func unmarshallEvents(rows *sql.Rows) ([]EventCard, error) {
 	for rows.Next() {
 		var event EventCard
 		var voteDiff sql.NullInt64
-		err := rows.Scan(&event.Id, &event.Title, &event.EventType, &event.Description, &event.StartDate, &voteDiff, &event.CalendarLink, &event.PermaLink, &event.BuildingName)
+		err := rows.Scan(&event.Id, &event.Title, &event.EventType, &event.Description, &event.StartDate, &event.EndDate, &voteDiff, &event.CalendarLink, &event.PermaLink, &event.BuildingName)
 		if err != nil {
 			return nil, err
 		}
@@ -262,7 +271,8 @@ func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
             e.title AS Title,
 			e.type AS EventType,
             e.event_description AS Description,
-            e.event_date AS StartDate,
+            e.event_start AS StartDate,
+			e.event_end AS EndDate,
             COALESCE(SUM(CASE WHEN v.vote_type = 'U' THEN 1 ELSE 0 END), 0) - 
             COALESCE(SUM(CASE WHEN v.vote_type = 'D' THEN 1 ELSE 0 END), 0) AS VoteDiff,
             e.gcal_link AS CalendarLink,
@@ -275,7 +285,7 @@ func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
         WHERE
             e.nweek = ?
         GROUP BY 
-            e.event_id, e.title, e.event_description, e.event_date, e.gcal_link, e.permalink, e.building_name
+            e.event_id, e.title, e.event_description, e.event_start, e.event_end, e.gcal_link, e.permalink, e.building_name
         ORDER BY 
             VoteDiff DESC
         LIMIT ?
@@ -303,7 +313,7 @@ func (db *DB) GetRecommendedEvents(userId int64) ([]EventCard, error) {
 	}
 
 	query := `
-        SELECT e.event_id, e.title, e.type, e.event_description, e.event_date, 
+        SELECT e.event_id, e.title, e.type, e.event_description, e.event_start, e.event_end,
                COALESCE(SUM(CASE WHEN v.vote_type = 'U' THEN 1 WHEN v.vote_type = 'D' THEN -1 ELSE 0 END), 0) as vote_diff,
                e.gcal_link, e.permalink, e.building_name
         FROM recommended_events re
@@ -311,7 +321,7 @@ func (db *DB) GetRecommendedEvents(userId int64) ([]EventCard, error) {
         LEFT JOIN votes v ON e.event_id = v.event_id
         WHERE re.user_id = ? AND e.nweek = ?
         GROUP BY e.event_id
-        ORDER BY vote_diff DESC, e.event_date DESC;
+        ORDER BY vote_diff DESC, e.event_start DESC;
     `
 
 	rows, err := db.Query(query, userId, maxNweek)
