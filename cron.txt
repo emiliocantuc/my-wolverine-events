@@ -4,8 +4,5 @@
 
 # m h  dom mon dow   command
 
-# Scrap events (when?)
-# 20 * * * * cd /home/main/my-wolverine-events && python3 -u scripts/scrap_events.py >> /home/main/my-wolverine-events/scripts/scrap.log 2>&1
-
-# Compute recs and send email
-# 25 * * * * cd /home/main/my-wolverine-events && python3 -u compute.py >> compute.log 2>&1 && python3 -u scripts/send_email.py >> scripts/compute.log 2>&1
+# Scrap events at 1 am Sundays, compute recommendations and send emails
+0 1 * * 0 cd /home/main/my-wolverine-events && python3 -u scripts/scrap_events.py >> scripts/scrap.log 2>&1 && python3 -u compute.py >> compute.log 2>&1 && python3 -u scripts/send_email.py >> scripts/compute.log 2>&1
