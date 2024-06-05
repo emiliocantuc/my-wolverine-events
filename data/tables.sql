@@ -69,7 +69,8 @@ CREATE TABLE statistics (
     nusers INT,
     nevents INT
 );
-INSERT INTO statistics (nweek, nusers, nevents) VALUES (1, 0, 0);
+
+INSERT INTO statistics (nweek, nusers, nevents) VALUES (0, 0, 0);
 
 -- Auto create preferences for new user
 CREATE TRIGGER after_user_insert
@@ -83,3 +84,6 @@ END;
 CREATE INDEX idx_user_id ON votes (user_id);
 CREATE INDEX idx_event_id ON votes (event_id);
 CREATE INDEX idx_vote_type ON votes (vote_type);
+
+-- Disable caching? (TODO: check if necessary)
+PRAGMA cache_size = 0;

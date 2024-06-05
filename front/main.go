@@ -108,6 +108,7 @@ func index(w http.ResponseWriter, req *http.Request) {
 	}
 
 	featuredEvents, err = db.GetTopEvents(15)
+	fmt.Println("n top events", len(featuredEvents))
 	if handleError(err) {
 		return
 	}
@@ -202,7 +203,7 @@ func main() {
 
 	// Open the database connection
 	var err error
-	db, err = ConnectDB("../data/main.db")
+	db, err = ConnectDB("../data/main.db?_cache_size=0")
 	if err != nil {
 		log.Fatal("Error connecting to db", err)
 	}
