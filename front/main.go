@@ -13,14 +13,23 @@ import (
 // Database connection
 var db *DB
 
-// TODO do we need this?
-func respondWithTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	t, err := template.ParseFiles(tmpl)
+func handleInternalServerError(w http.ResponseWriter, err error, msg string) {
+	if msg == "" {
+		msg = "Error interno del servidor"
+	}
+	log.Println(err)
+	w.WriteHeader(http.StatusInternalServerError)
+	w.Write([]byte(msg))
+}
+
+func respondWithTemplate(w http.ResponseWriter, data interface{}, tmpls ...string) {
+	t, err := template.ParseFiles(tmpls...)
 	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-	} else {
-		t.Execute(w, data)
+		handleInternalServerError(w, err, "")
+		return
+	}
+	if err = t.Execute(w, data); err != nil {
+		handleInternalServerError(w, err, "")
 	}
 }
 
@@ -64,8 +73,7 @@ func login(w http.ResponseWriter, req *http.Request) {
 	if handleError(err) {
 		return
 	}
-
-	http.SetCookie(w, &http.Cookie{Name: "jwt", Value: jwtString})
+	http.SetCookie(w, &http.Cookie{Name: "jwt", Value: jwtString, HttpOnly: true, Secure: true, SameSite: http.SameSiteLaxMode, MaxAge: 30 * 24 * 60 * 60})
 	http.Redirect(w, req, redirectTo, http.StatusSeeOther)
 }
 
@@ -79,16 +87,6 @@ func index(w http.ResponseWriter, req *http.Request) {
 	var featuredEvents, recommendedEvents []EventCard
 	var err error
 
-	handleError := func(err error) bool {
-		if err != nil {
-			log.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprint(w, "Internal error")
-			return true
-		}
-		return false
-	}
-
 	setLoggedIn := func(events []EventCard, loggedIn bool) {
 		for i := 0; i < len(events); i++ {
 			events[i].LoggedIn = loggedIn
@@ -101,7 +99,8 @@ func index(w http.ResponseWriter, req *http.Request) {
 	if loggedIn {
 		recommendedEvents, err = db.GetRecommendedEvents(id)
 		fmt.Println("n recommended events", len(recommendedEvents))
-		if handleError(err) {
+		if err != nil {
+			handleInternalServerError(w, err, "")
 			return
 		}
 		setLoggedIn(recommendedEvents, loggedIn)
@@ -109,17 +108,13 @@ func index(w http.ResponseWriter, req *http.Request) {
 
 	featuredEvents, err = db.GetTopEvents(15)
 	fmt.Println("n top events", len(featuredEvents))
-	if handleError(err) {
+	if err != nil {
+		handleInternalServerError(w, err, "")
 		return
 	}
 	setLoggedIn(featuredEvents, loggedIn)
 
-	t, err := template.ParseFiles("../templates/index.html", "../templates/event_card.html")
-	if handleError(err) {
-		return
-	}
-
-	err = t.Execute(w, struct {
+	respondWithTemplate(w, struct {
 		LoggedIn          bool
 		GoogleClientId    string
 		FeaturedEvents    []EventCard
@@ -129,11 +124,7 @@ func index(w http.ResponseWriter, req *http.Request) {
 		GoogleClientId:    os.Getenv("GOOGLE_CLIENT_ID"),
 		FeaturedEvents:    featuredEvents,
 		RecommendedEvents: recommendedEvents,
-	})
-
-	if handleError(err) {
-		return
-	}
+	}, "../templates/index.html", "../templates/event_card.html")
 }
 
 func prefs(w http.ResponseWriter, req *http.Request) {
@@ -151,7 +142,7 @@ func prefs(w http.ResponseWriter, req *http.Request) {
 	}
 
 	if req.Method == "GET" {
-		respondWithTemplate(w, "../templates/prefs.html", currentPrefs)
+		respondWithTemplate(w, currentPrefs, "../templates/prefs.html")
 	} else if req.Method == "PUT" {
 
 		if err := req.ParseForm(); err != nil {

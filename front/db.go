@@ -260,7 +260,6 @@ func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
 	// TODO put a cache in front of this ?
 
 	maxNweek, err := db.GetMaxNweek()
-	fmt.Println("max week", maxNweek)
 	if err != nil {
 		return nil, err
 	}
@@ -307,7 +306,6 @@ func (db *DB) GetTopEvents(n int) ([]EventCard, error) {
 func (db *DB) GetRecommendedEvents(userId int64) ([]EventCard, error) {
 
 	maxNweek, err := db.GetMaxNweek()
-	fmt.Println("max week", maxNweek)
 	if err != nil {
 		return nil, err
 	}
